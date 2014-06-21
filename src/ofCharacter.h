@@ -30,7 +30,7 @@ public:
     int dim;      // size
     
     // Costructor
-    ofBall();
+    ofCharacter();
     
 private:
     

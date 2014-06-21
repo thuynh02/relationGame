@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4B1022A9-5408-41C9-B24C-4F7648998500</string>
+	<key>IDESourceControlProjectName</key>
+	<string>relationGame</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>50EDB302-DBF8-4342-9603-C043B97165E7</key>
+		<string>ssh://github.com/itskaytran/relationGame.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>relationGame.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>50EDB302-DBF8-4342-9603-C043B97165E7</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/itskaytran/relationGame.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>50EDB302-DBF8-4342-9603-C043B97165E7</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>50EDB302-DBF8-4342-9603-C043B97165E7</string>
+			<key>IDESourceControlWCCName</key>
+			<string>relationGame</string>
+		</dict>
+	</array>
+</dict>
+</plist>
