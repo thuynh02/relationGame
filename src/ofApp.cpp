@@ -127,12 +127,12 @@ void ofApp::keyPressed(int key){
         
         if( nameFieldActive && !introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
-            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { nameInput.substr(0, nameInput.size() - 1); }
+            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { nameInput = nameInput.substr(0, nameInput.size() - 1); }
             else { nameInput += key; }
         }
         else if( !nameFieldActive && introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
-            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { introInput.substr(0, introInput.size() - 1); }
+            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { introInput = introInput.substr(0, introInput.size() - 1); }
             else { introInput += key; }
         }
         else if( !nameFieldActive && !introFieldActive && nameInput != "" && introInput != "" ){
