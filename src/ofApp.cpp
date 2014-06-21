@@ -109,7 +109,10 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     
     // Conditional Statement for Toggling Fullscreen
-    if ( key == OF_KEY_F1 ) { ofToggleFullscreen(); }
+    if ( key == OF_KEY_F1 ) {
+        ofToggleFullscreen();
+        modeParty->resetSize( 0, 0 );
+    }
     
     // Conditional Statements for Altering Screen
     if( currentScreen == START ){

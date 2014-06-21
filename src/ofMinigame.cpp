@@ -65,3 +65,13 @@ void ofMinigame::draw(){
 }
 
 
+
+
+// Reset Size Method - In case Toggling of Full Screen
+void ofMinigame::resetSize( float x, float y ){
+    this->x = x;
+    this->y = y;
+    this->width = (ofGetWidth()/4) * 3;
+    this->height = ofGetHeight();
+};
+

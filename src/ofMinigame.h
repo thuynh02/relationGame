@@ -17,7 +17,7 @@ public:
     // Public Methods
     void update();
     void draw();
-//    void drawTimer();
+    void resetSize( float, float );
     
     // Public Variables
     float x;        // position
@@ -41,4 +41,4 @@ private:
     
 };
 
-#endif
+#endif// Reset Size Method - In case Toggling of Full Screen
