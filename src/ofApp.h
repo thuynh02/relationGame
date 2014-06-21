@@ -30,9 +30,14 @@ private:
     ScreenType currentScreen, previousScreen;
     
     // Private Member Variables
-    ofCharacter* character;
-    ofImage screenBG; 
     ofImage logo;
+    ofImage screenBG;
+    ofCharacter* player;
+    ofMinigame* modeParty;
+    
+    char timerString[255];
+    ofTrueTypeFont myFont;
+
 };
 
 #endif

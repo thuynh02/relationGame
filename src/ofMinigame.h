@@ -17,21 +17,27 @@ public:
     // Public Methods
     void update();
     void draw();
-    void changeImage( string );
+//    void drawTimer();
     
     // Public Variables
-    ofImage screenImage;
     float x;        // position
     float y;
     float width;
     float height;
+    bool isActive;
+    string gameType;
+    int minutes, seconds;
+    unsigned long long startTime;
+    unsigned long long targetTime;
+    unsigned long long timeLeftInMilliseconds;
     
     // Constructors
-    ofMinigame( string );
-    
+    ofMinigame( string gameType, float x, float y, string imagePath, int targetMinutes );
+    ofMinigame( string gameType, float x, float y, float width, float height, int targetMinutes );
     // Destructor
     ~ofMinigame();
 private:
+    ofImage screenImage;
     
 };
 

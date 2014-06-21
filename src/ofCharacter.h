@@ -25,12 +25,20 @@ public:
     // Public Variables
     float x;      // position
     float y;
+    float width;  // dimensions
+    float height;
     float speedY; // speed and direction
     float speedX;
-    int dim;      // size
-    
+    int footSpace;
+    ofImage charImage;
+
     // Constructor
-    ofCharacter();
+    ofCharacter(    string imagePath,
+                    float x = 0,
+                    float y = 0,
+                    float speedX = ofRandom(-1, 1),
+                    float speedY = ofRandom(-1, 1)
+                );
     
     // Destructor
     ~ofCharacter();

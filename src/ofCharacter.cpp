@@ -8,14 +8,13 @@
 #include "ofCharacter.h"
 
 // Default Constructor - Used to create a character
-ofCharacter::ofCharacter() {
-    x = 0;      // give some random positioning
-    y = 0;
-    
-    speedX = ofRandom(-1, 1);           // and random speed and direction
-    speedY = ofRandom(-1, 1);
-    
-    dim = 20;
+ofCharacter::ofCharacter( string imagePath, float x, float y, float speedX, float speedY )
+    : x(x), y(y), speedX( speedX ), speedY( speedY )
+{
+    charImage.loadImage( imagePath );
+    width = charImage.getWidth();
+    height = charImage.getHeight();
+    footSpace =charImage.getHeight() / 5;
 }
 
 
@@ -23,9 +22,9 @@ ofCharacter::ofCharacter() {
 
 
 // Update Method - Used to refresh character's properties
-void ofCharacter::update( int mouseX, int mouseY){
-    x = mouseX;
-    y = mouseY;
+void ofCharacter::update( int x, int y ){
+    this->x = x;
+    this->y = y;
 }
 
 
@@ -34,8 +33,8 @@ void ofCharacter::update( int mouseX, int mouseY){
 
 // Update Method - Used to refresh character's properties
 void ofCharacter::draw(){
-    // values for R, G, B
-    ofSetColor(120,120,120);
-    ofCircle(x, y, dim);
-    
+    ofSetColor( 255, 255, 255 );
+    charImage.draw(x, y, width, height);
+    ofSetColor( 120, 120, 120 );
+    ofRect( x, y + height - footSpace, width, footSpace );
 }

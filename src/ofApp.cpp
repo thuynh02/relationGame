@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include <string>
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -6,7 +7,17 @@ void ofApp::setup(){
     ofEnableSmoothing();
     
     // Initialization of Objects on Heap
-    character = new ofCharacter();
+    player = new ofCharacter( "characters/player.jpg");
+    modeParty = new ofMinigame( "PARTY",
+                                ofGetWidth() / 8,        // x-Position
+                                ofGetHeight() / 8,       // y-Position
+                                (ofGetWidth() / 8) * 6,  // width
+                                (ofGetHeight() / 8) * 6, // height
+                                3                        // target time
+    );
+    
+    // Loading Fonts
+    myFont.loadFont("fonts/verdana.ttf", 32);
     
     // Loading Logo
     logo.loadImage( "gameLogo.jpg" );
@@ -22,7 +33,8 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    character->update(mouseX, mouseY);
+    modeParty->update();
+    player->update(mouseX, mouseY);
     
 }
 
@@ -37,15 +49,34 @@ void ofApp::draw(){
     if( currentScreen == START ){
         ofSetColor( 255, 255, 255 );
         logo.draw( ofGetWidth()/2 - logo.getWidth()/2, ofGetHeight()/2 - logo.getHeight()/2, logo.getWidth(), logo.getHeight() );
-    } else if( currentScreen == INSTRUCTIONS ){
+    }
+    
     // Currently in Instruction Screen
-        character->draw();
+    else if( currentScreen == INSTRUCTIONS ){
+        player->draw();
+    }
+    
+    // Currently in Party Screen
+    else if( currentScreen == PARTY ){
+        modeParty->draw();
+        player->draw();
+        
+        ofSetColor( 120, 120, 120 );
+        
+        // Draw Timer only in minutes and seconds
+        sprintf(timerString, ( modeParty->seconds < 10 ) ? "%d:0%d" : "%d:%d", modeParty->minutes, modeParty->seconds);
+        myFont.drawString(timerString, ofGetWidth()/2 - myFont.stringWidth( timerString )/2, 40);
+        
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     
+    // Conditional Statement for Toggling Fullscreen
+    if ( key == OF_KEY_F1 ) { ofToggleFullscreen(); }
+    
+    // Conditional Statements for Altering Screen
     if( currentScreen == START ){
         previousScreen = START;
         currentScreen = INSTRUCTIONS;
@@ -63,6 +94,7 @@ void ofApp::keyPressed(int key){
         if( key == ' ' ){ currentScreen = MINIGAME; }
         else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
         else if ( key == OF_KEY_BACKSPACE ) { currentScreen = ENDING; }
+        
     }
     else if( currentScreen == MINIGAME) {
         
@@ -73,6 +105,7 @@ void ofApp::keyPressed(int key){
         if( key == ' ' ) { currentScreen = PARTY; }
         else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
         else if ( key == OF_KEY_BACKSPACE ) { currentScreen = ENDING; }
+        
     }
     else if( currentScreen == PAUSE ) {
         
@@ -80,6 +113,7 @@ void ofApp::keyPressed(int key){
         // previousScreen's Possible Values: PARTY, MINIGAME, ENDING
         if( key == OF_KEY_SHIFT ) { currentScreen = previousScreen; }
         else if ( key == OF_KEY_BACKSPACE ) { currentScreen = ENDING; }
+        
     }
     else if ( currentScreen == ENDING ) {
         
@@ -89,6 +123,7 @@ void ofApp::keyPressed(int key){
         // Change currentScreen, based on key, to START, PAUSE
         if( key == ' ' ) { currentScreen = START; }
         else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
+        
     }
     
 }
