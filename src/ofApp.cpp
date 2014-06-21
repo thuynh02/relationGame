@@ -55,6 +55,10 @@ void ofApp::setup(){
             )
         );
     }
+    
+    // Set-Up of Minigame (First level test)
+    modeParty->loadLevel(1);
+    
 }
 
 //--------------------------------------------------------------
@@ -118,6 +122,7 @@ void ofApp::draw(){
         sprintf(timerString, ( modeParty->seconds < 10 ) ? "%d:0%d" : "%d:%d", modeParty->minutes, modeParty->seconds);
         myFont.drawString(timerString, ofGetWidth()/2 - myFont.stringWidth( timerString )/2, 40);
         
+        modeParty->drawLevel();
     }
 }
 
@@ -230,7 +235,9 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    if( currentScreen == MINIGAME ){
+        
+    }
 }
 
 //--------------------------------------------------------------
@@ -274,7 +281,7 @@ void ofApp::resetFont(){
 string ofApp::getRandNum( std::ostringstream& oss, int value ) {
     oss.str("");
     oss << ofRandom(1, value);
-    oss.str();
+    return oss.str();
 }
 //--------------------------------------------------------------
 //void ofApp::quickSort( ofCharacter*[] yCharacters, int i, int j)

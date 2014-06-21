@@ -28,8 +28,6 @@ ofMinigame::ofMinigame( string gameType, float x, float y, string imagePath, int
 }
 
 
-
-
 // Update Method - Used to refresh minigame's properties
 void ofMinigame::update(){
     
@@ -66,7 +64,6 @@ void ofMinigame::draw(){
 
 
 
-
 // Reset Size Method - In case Toggling of Full Screen
 void ofMinigame::resetSize( float x, float y ){
     this->x = x;
@@ -74,4 +71,28 @@ void ofMinigame::resetSize( float x, float y ){
     this->width = (ofGetWidth()/4) * 3;
     this->height = ofGetHeight();
 };
+
+void ofMinigame::loadLevel(int level){
+    std::ostringstream oss;
+    oss << level;
+    levelImage.loadImage("../../../data/levels/level" + oss.str() + ".png" );
+    pointImage.loadImage("../../../data/general/checkpoint.png" );
+    checkpoints = new ofLevelCheckpoints( level, "../../../data/levels/level" + oss.str() + ".txt" );
+}
+
+
+void ofMinigame::drawLevel(){
+    int levelPosX = (ofGetWidth()/2)-(levelImage.width/2);
+    int levelPosY = (ofGetHeight()/2)-(levelImage.height/2);
+    levelImage.draw( levelPosX, levelPosY, levelImage.width, levelImage.height );
+    
+    for( size_t i = 0; i < checkpoints->listOfPoints.size(); ++i ){
+        if( checkpoints->listOfPoints[i]->type == 'S' ){ ofSetColor( 90,160,90 ); }
+        pointImage.update();
+        pointImage.draw( (levelPosX + checkpoints->listOfPoints[i]->x) - pointImage.width/2,
+                         (levelPosY + checkpoints->listOfPoints[i]->y) - pointImage.height/2,
+                         pointImage.width, pointImage.height );
+    }
+    
+}
 
