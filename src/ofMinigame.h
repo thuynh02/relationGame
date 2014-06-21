@@ -9,6 +9,8 @@
 #define _OF_MINIGAME
 
 #include "ofMain.h"
+#include "ofLevelCheckpoints.h"
+#include <sstream>
 
 class ofMinigame {
     
@@ -17,6 +19,8 @@ public:
     // Public Methods
     void update();
     void draw();
+    void loadLevel(int level);
+    void drawLevel();
 //    void drawTimer();
     
     // Public Variables
@@ -30,6 +34,8 @@ public:
     unsigned long long startTime;
     unsigned long long targetTime;
     unsigned long long timeLeftInMilliseconds;
+    ofImage levelImage;
+    ofLevelCheckpoints* checkpoints;
     
     // Constructors
     ofMinigame( string gameType, float x, float y, string imagePath, int targetMinutes );

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DBC71E119560CFF0069FB47 /* ofCheckpoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBC71E019560CFF0069FB47 /* ofCheckpoint.cpp */; };
+		4DBC71E3195610820069FB47 /* ofLevelCheckpoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBC71E2195610820069FB47 /* ofLevelCheckpoints.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -61,6 +63,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D5C401C19562E8E009A1CFE /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = level1.txt; path = bin/data/levels/level1.txt; sourceTree = SOURCE_ROOT; };
+		4DBC71DE195605AD0069FB47 /* ofCheckpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofCheckpoint.h; sourceTree = "<group>"; };
+		4DBC71DF19560CA30069FB47 /* ofLevelCheckpoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofLevelCheckpoints.h; sourceTree = "<group>"; };
+		4DBC71E019560CFF0069FB47 /* ofCheckpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofCheckpoint.cpp; sourceTree = "<group>"; };
+		4DBC71E2195610820069FB47 /* ofLevelCheckpoints.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofLevelCheckpoints.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -225,6 +232,11 @@
 			isa = PBXGroup;
 			children = (
 				EC3CA86419553A0500A25CB0 /* ofMinigame.h */,
+				4DBC71DE195605AD0069FB47 /* ofCheckpoint.h */,
+				4DBC71DF19560CA30069FB47 /* ofLevelCheckpoints.h */,
+				4DBC71E019560CFF0069FB47 /* ofCheckpoint.cpp */,
+				4DBC71E2195610820069FB47 /* ofLevelCheckpoints.cpp */,
+				4D5C401C19562E8E009A1CFE /* level1.txt */,
 				EC3CA86519553A1E00A25CB0 /* ofMinigame.cpp */,
 			);
 			name = minigames;
@@ -317,10 +329,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DBC71E119560CFF0069FB47 /* ofCheckpoint.cpp in Sources */,
 				EC3CA8621955385E00A25CB0 /* ofCharacter.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				EC3CA86619553A1E00A25CB0 /* ofMinigame.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				4DBC71E3195610820069FB47 /* ofLevelCheckpoints.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

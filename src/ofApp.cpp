@@ -42,6 +42,9 @@ void ofApp::setup(){
             )
         );
     }
+    
+    // Set-Up of Minigame (First level test)
+    modeParty->loadLevel(1);
 
 }
 
@@ -54,6 +57,10 @@ void ofApp::update(){
     
     for ( int i = 0; i < numOfCharacters; i++ ) {
         characters[i]->update();
+    }
+    
+    if( currentScreen == MINIGAME ){
+        
     }
     
 }
@@ -92,6 +99,10 @@ void ofApp::draw(){
         sprintf(timerString, ( modeParty->seconds < 10 ) ? "%d:0%d" : "%d:%d", modeParty->minutes, modeParty->seconds);
         myFont.drawString(timerString, ofGetWidth()/2 - myFont.stringWidth( timerString )/2, 40);
         
+    }
+    
+    else if( currentScreen == MINIGAME ){
+        modeParty->drawLevel();
     }
 }
 
@@ -173,7 +184,9 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    if( currentScreen == MINIGAME ){
+        
+    }
 }
 
 //--------------------------------------------------------------

@@ -59,9 +59,22 @@ void ofMinigame::update(){
 void ofMinigame::draw(){
     if( isActive ){
         ofSetColor( 0, 0, 0 );
-        ofRect( x, y, width, height );
-        // screenImage.draw(x, y, ofGetWidth(), ofGetHeight());
+        ofRect( x, y, ofGetWidth()-(2*x), ofGetHeight()-(2*y) );
+        //screenImage.draw(x, y, ofGetWidth(), ofGetHeight());
     }
 }
 
+
+
+void ofMinigame::loadLevel(int level){
+    std::ostringstream oss;
+    oss << level;
+    levelImage.loadImage("levels/level" + oss.str() + ".png" );
+}
+
+
+void ofMinigame::drawLevel(){
+    levelImage.draw( (ofGetWidth()/2)-(levelImage.width/2), (ofGetHeight()/2)-(levelImage.height/2),
+                    levelImage.width, levelImage.height );
+}
 
