@@ -27,8 +27,11 @@ public:
     float y;
     float width;  // dimensions
     float height;
+    
     float speedY; // speed and direction
     float speedX;
+    
+    float range;
     int footSpace;
     ofImage charImage;
 

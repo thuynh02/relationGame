@@ -9,7 +9,7 @@
 
 // Default Constructor - Used to create a character
 ofCharacter::ofCharacter( string imagePath, float x, float y, float speedX, float speedY )
-    : x(x), y(y), speedX( speedX ), speedY( speedY )
+    : x(x), y(y), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) )
 {
     charImage.loadImage( imagePath );
     width = charImage.getWidth();
@@ -31,10 +31,18 @@ void ofCharacter::update( int x, int y ){
 
 
 
+
 // Update Method - Used to refresh character's properties
 void ofCharacter::draw(){
+    ofSetColor( 120, 120, 120 );
+    ofEllipse( x + width/2,
+              y + height,
+              range * (height) / 2,
+              range * (height) / 4 );
+    
     ofSetColor( 255, 255, 255 );
     charImage.draw(x, y, width, height);
-    ofSetColor( 120, 120, 120 );
+    
+    ofSetColor( 255, 255, 255, 100 );
     ofRect( x, y + height - footSpace, width, footSpace );
 }

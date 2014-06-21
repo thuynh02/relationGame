@@ -8,12 +8,14 @@ void ofApp::setup(){
     
     // Initialization of Objects on Heap
     player = new ofCharacter( "characters/player.jpg");
-    modeParty = new ofMinigame( "PARTY",
-                                ofGetWidth() / 8,        // x-Position
-                                ofGetHeight() / 8,       // y-Position
-                                (ofGetWidth() / 8) * 6,  // width
-                                (ofGetHeight() / 8) * 6, // height
-                                3                        // target time
+    
+    modeParty = new ofMinigame(
+       "PARTY",
+        ofGetWidth() / 8,        // x-Position
+        ofGetHeight() / 8,       // y-Position
+        (ofGetWidth() / 8) * 6,  // width
+        (ofGetHeight() / 8) * 6, // height
+        3                        // target time
     );
     
     // Loading Fonts
@@ -27,6 +29,19 @@ void ofApp::setup(){
     
     // Set-Up of Screens
     currentScreen = START;
+    
+    // Set-Up of Party Mode
+    numOfCharacters = 10;
+    characters = new ofCharacter*[numOfCharacters];
+    for ( int i = 0; i < numOfCharacters; i++ ) {
+        characters[i] = new ofCharacter(
+            "characters/character.jpg",
+            ofRandom( modeParty->x, modeParty->width ),
+            ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
+                        modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
+            )
+        );
+    }
 
 }
 
@@ -35,6 +50,7 @@ void ofApp::update(){
     
     modeParty->update();
     player->update(mouseX, mouseY);
+    
     
 }
 
@@ -59,6 +75,11 @@ void ofApp::draw(){
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
         modeParty->draw();
+        
+        for ( int i = 0; i < numOfCharacters; i++ ) {
+            characters[i]->draw();
+        }
+        
         player->draw();
         
         ofSetColor( 120, 120, 120 );
@@ -79,6 +100,10 @@ void ofApp::keyPressed(int key){
     // Conditional Statements for Altering Screen
     if( currentScreen == START ){
         previousScreen = START;
+        currentScreen = INSTRUCTIONS;
+    }
+    else if( currentScreen == CHARACTER ){
+        previousScreen = CHARACTER;
         currentScreen = INSTRUCTIONS;
     }
     else if( currentScreen == INSTRUCTIONS ){
@@ -133,6 +158,7 @@ void ofApp::keyReleased(int key){
     
     // Conditional Statements for Altering Screen
     if( currentScreen == START ){ screenBG.loadImage( "screens/startScreen.jpg"); }
+    else if( currentScreen == CHARACTER ){ screenBG.loadImage( "screens/instructScreen.jpg"); }
     else if( currentScreen == INSTRUCTIONS ){ screenBG.loadImage( "screens/instructScreen.jpg"); }
     else if( currentScreen == PARTY ) { screenBG.loadImage( "screens/partyScreen.jpg"); }
     else if( currentScreen == MINIGAME ) { screenBG.loadImage( "screens/minigameScreen.jpg"); }

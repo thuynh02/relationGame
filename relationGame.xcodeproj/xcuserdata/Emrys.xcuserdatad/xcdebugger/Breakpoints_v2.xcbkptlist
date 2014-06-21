@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/ofCharacter.h"
-            timestampString = "425030451.444392"
+            timestampString = "425038879.68567"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "ofCharacter( string imagePath, float x = 0, float y = 0, float speedX = ofRandom(-1, 1), float speedY = ofRandom(-1, 1) )"
             landmarkType = "4">
          </BreakpointContent>

@@ -24,7 +24,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
+    enum ScreenType { START, CHARACTER, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
     
 private:
     ScreenType currentScreen, previousScreen;
@@ -32,7 +32,12 @@ private:
     // Private Member Variables
     ofImage logo;
     ofImage screenBG;
+    
     ofCharacter* player;
+    
+    int numOfCharacters;
+    ofCharacter** characters; // Array of Characters
+    
     ofMinigame* modeParty;
     
     char timerString[255];
