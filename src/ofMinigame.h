@@ -33,7 +33,7 @@ public:
     
     // Constructors
     ofMinigame( string gameType, float x, float y, string imagePath, int targetMinutes );
-    ofMinigame( string gameType, float x, float y, float width, float height, int targetMinutes );
+    ofMinigame( string gameType, float x, float y, int targetMinutes );
     // Destructor
     ~ofMinigame();
 private:

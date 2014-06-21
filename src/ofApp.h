@@ -6,7 +6,7 @@
 #include "ofCharacter.h"
 #include "ofMinigame.h"
 
-#define MINIGAMETIME 3
+#define MINIGAMETIME 1
 #define FONTSIZE 32
 #define NUMBEROFCHARACTERS 10
 

@@ -9,7 +9,7 @@
 #include "ofMinigame.h"
 
 // Default Constructor - Used to create a minigame
-ofMinigame::ofMinigame( string gameType, float x, float y, float width, float height, int targetMinutes ) : x(x), y(y), width( width ), height( height ), isActive( true ), minutes( targetMinutes ), seconds( 0 )
+ofMinigame::ofMinigame( string gameType, float x, float y, int targetMinutes ) :x(x), y(y), width( (ofGetWidth()/4) * 3 ), height( ofGetHeight() ), isActive( true ), minutes( targetMinutes ), seconds( 0 )
 {
     startTime = ofGetElapsedTimeMillis();
     targetTime = targetMinutes * 60000; // 1 minute = 60000 milliseconds

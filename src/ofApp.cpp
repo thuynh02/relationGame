@@ -11,10 +11,8 @@ void ofApp::setup(){
     
     modeParty = new ofMinigame(
        "PARTY",
-        ofGetWidth() / 8,        // x-Position
-        ofGetHeight() / 8,       // y-Position
-        (ofGetWidth() / 8) * 6,  // width
-        (ofGetHeight() / 8) * 6, // height
+        0,
+        0,
         MINIGAMETIME             // target time
     );
     
@@ -56,6 +54,11 @@ void ofApp::update(){
         characters[i]->update();
     }
     
+    if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
+        previousScreen = currentScreen;
+        currentScreen = ENDING;
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -72,9 +75,7 @@ void ofApp::draw(){
     }
     
     // Currently in Instruction Screen
-    else if( currentScreen == INSTRUCTIONS ){
-        player->draw();
-    }
+    else if( currentScreen == INSTRUCTIONS ){    }
     
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
@@ -85,6 +86,15 @@ void ofApp::draw(){
         }
         
         player->draw();
+        
+        ofSetColor( 120, 120, 120 );
+        
+        // Draw Timer only in minutes and seconds
+        sprintf(timerString, ( modeParty->seconds < 10 ) ? "%d:0%d" : "%d:%d", modeParty->minutes, modeParty->seconds);
+        myFont.drawString(timerString, modeParty->width/2 - myFont.stringWidth( timerString )/2, 40);
+        
+    }
+    else if( currentScreen == MINIGAME ){
         
         ofSetColor( 120, 120, 120 );
         
@@ -155,11 +165,6 @@ void ofApp::keyPressed(int key){
         
     }
     
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-    
     // Conditional Statements for Altering Screen
     if( currentScreen == START ){ screenBG.loadImage( "screens/startScreen.jpg"); }
     else if( currentScreen == CHARACTER ){ screenBG.loadImage( "screens/instructScreen.jpg"); }
@@ -169,6 +174,11 @@ void ofApp::keyReleased(int key){
     else if( currentScreen == PAUSE ) { screenBG.loadImage( "screens/pauseScreen.jpg"); }
     else if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endScreen.jpg"); }
 
+}
+
+//--------------------------------------------------------------
+void ofApp::keyReleased(int key){
+    
 }
 
 //--------------------------------------------------------------
