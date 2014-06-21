@@ -78,6 +78,7 @@ void ofApp::draw(){
         myFont.drawString("NAME: ", ofGetWidth()/15, ofGetHeight()/10);
         myFont.drawString("INSTRUCTIONS: ", ofGetWidth()/15, ofGetHeight()/10 + ofGetHeight()/20 + myFont.stringHeight("NAME: ") );
         myFont.drawString(nameInput, ofGetWidth()/15 + myFont.stringWidth("NAME: ")*1.5, ofGetHeight()/10);
+        myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10)*5);
 
     }
     // Currently in Party Screen
@@ -125,11 +126,13 @@ void ofApp::keyPressed(int key){
     else if( currentScreen == INSTRUCTIONS ){
         
         if( nameFieldActive && !introFieldActive ){
-            if( key == OF_KEY_BACKSPACE ) { nameInput.substr(0, nameInput.size() - 1); }
+            if( key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
+            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { nameInput.substr(0, nameInput.size() - 1); }
             else { nameInput += key; }
         }
         else if( !nameFieldActive && introFieldActive ){
-            if( key == OF_KEY_BACKSPACE ) { introInput.substr(0, introInput.size() - 1); }
+            if( key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
+            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { introInput.substr(0, introInput.size() - 1); }
             else { introInput += key; }
         }
         else if( !nameFieldActive && !introFieldActive && nameInput != "" && introInput != "" ){
