@@ -27,7 +27,7 @@ ofMinigame::ofMinigame( string gameType, float x, float y, string imagePath, int
     timeLeftInMilliseconds = targetTime;
 }
 
-
+ofMinigame::~ofMinigame(){}
 
 
 // Update Method - Used to refresh minigame's properties

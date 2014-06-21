@@ -7,26 +7,15 @@ void ofApp::setup(){
     std::ostringstream oss;
     ofEnableSmoothing();
     
-    // Initialization of Objects on Heap
-    player = new ofCharacter( "characters/blankBody.png",
-                             "characters/eyes/base.png",
-                             "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
-                             "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
-                             "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
-                             "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
-                             "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
-                             100, 100, 1.5, 1.5);
-    
-    modeParty = new ofMinigame(
-       "PARTY",
-        0,
-        0,
-        MINIGAMETIME             // target time
-    );
+    reset( oss );
+    nameFieldActive = true, introFieldActive = false;
     
     // Loading Fonts
     resetFont();
     myText.init("fonts/verdana.ttf", 80);
+    
+    nameInput = "";
+    introInput = "";
     
     myText.setText("You came to a party hoping to meet up with some close friends of yours. Unfortunately, they all bailed on you at the last minute. You're already at the party, but it's been ages since you last tried to make some new friends. Make the most of the night and find a new person to connect with before the party ends on a lonely note. \nFind someone interesting on the guest list and walk over to them using the W, A, S, D keys. Once you get close to someone you'll have a chance to introduce yourself and start a conversation with them. Conversations are navigated with your mouse, you'll be following the flow of conversation quite literally with your pointer. Stay within the shapes given to you as best you can and be careful! When meeting someone new you need to pay attention to what they say and respect their boundaries. Too many run ins with the conversation's walls or going too fast will make people not want anything to do with you. \nGood luck, and one last thing... how do you want to say hello to the people you meet tonight?" );
     
@@ -43,25 +32,8 @@ void ofApp::setup(){
     // Set-Up of Screens
     currentScreen = START;
     
-    // Set-Up of Party Mode
-    numOfCharacters = NUMBEROFCHARACTERS;
-    characters = new ofCharacter*[numOfCharacters];
-    for ( int i = 0; i < numOfCharacters; i++ ) {
-        
-        characters[i] = new ofCharacter(
-            "characters/blankBody.png",
-            "characters/eyes/base.png",
-            "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
-            "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
-            "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
-            "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
-            "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
-            ofRandom( modeParty->x, modeParty->width ),
-            ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
-                        modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
-            )
-        );
-    }
+    if(currentScreen == INSTRUCTIONS ) { ofShowCursor(); }
+    else { ofHideCursor();}
 }
 
 //--------------------------------------------------------------
@@ -69,16 +41,21 @@ void ofApp::update(){
     
     modeParty->update();
     
-    for ( int i = 0; i < numOfCharacters; i++ ) {
+    for ( int i = 0; i < numOfCharacters; i++ ) { 
         characters[i]->update( false );
     }
     
+    // Reorder
+//    ofSort(characters, my_compare);
     if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
         previousScreen = currentScreen;
         currentScreen = ENDING;
     }
     
     player->update( true );
+    
+    std::sort( characters.begin(), characters.end() );
+    
 }
 
 //--------------------------------------------------------------
@@ -97,9 +74,12 @@ void ofApp::draw(){
     // Currently in Instruction Screen
     else if( currentScreen == INSTRUCTIONS ){
         ofSetColor( 120, 120, 120 );
-        myText.draw( 0, ofGetHeight() );
+        myText.draw( 500, ofGetHeight() );
+        myFont.drawString("NAME: ", ofGetWidth()/15, ofGetHeight()/10);
+        myFont.drawString("INSTRUCTIONS: ", ofGetWidth()/15, ofGetHeight()/10 + ofGetHeight()/20 + myFont.stringHeight("NAME: ") );
+        myFont.drawString(nameInput, ofGetWidth()/15 + myFont.stringWidth("NAME: ")*1.5, ofGetHeight()/10);
+
     }
-    
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
         modeParty->draw();
@@ -134,16 +114,28 @@ void ofApp::keyPressed(int key){
     // Conditional Statement for Toggling Fullscreen
     if ( key == OF_KEY_F1 ) {
         ofToggleFullscreen();
+        myText.wrapTextArea( (ofGetWidth()/3)*2, ofGetHeight()/2 );
     }
     
     // Conditional Statements for Altering Screen
-    if( currentScreen == START && key == ' ' ){
+    if( currentScreen == START && key == OF_KEY_TAB ){
         previousScreen = START;
         currentScreen = INSTRUCTIONS;
     }
-    else if( currentScreen == INSTRUCTIONS && key == ' ' ){
-        previousScreen = INSTRUCTIONS;
-        currentScreen = PARTY;
+    else if( currentScreen == INSTRUCTIONS ){
+        
+        if( nameFieldActive && !introFieldActive ){
+            if( key == OF_KEY_BACKSPACE ) { nameInput.substr(0, nameInput.size() - 1); }
+            else { nameInput += key; }
+        }
+        else if( !nameFieldActive && introFieldActive ){
+            if( key == OF_KEY_BACKSPACE ) { introInput.substr(0, introInput.size() - 1); }
+            else { introInput += key; }
+        }
+        else if( !nameFieldActive && !introFieldActive && nameInput != "" && introInput != "" ){
+            previousScreen = INSTRUCTIONS;
+            currentScreen = PARTY;
+        }
     }
     else if( currentScreen == PARTY ) {
         
@@ -198,7 +190,16 @@ void ofApp::keyPressed(int key){
         previousScreen = ENDING;
         
         // Change currentScreen, based on key, to START, PAUSE
-        if( key == ' ' ) { currentScreen = START; }
+        if( key == ' ' ) {
+            currentScreen = START;
+            delete player;
+            delete modeParty;
+            vector<ofCharacter*>::iterator it = characters.begin();
+            for(; it != characters.end();){
+                delete *it;
+                it = characters.erase(it);
+            }
+        }
         else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
         
     }
@@ -237,7 +238,7 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    ofShowCursor();
 }
 
 //--------------------------------------------------------------
@@ -247,6 +248,13 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+
+    if( !introFieldActive && x > nameField.x && y > nameField.y && x < nameField.x + nameField.width && y < nameField.y + nameField.height  ){
+        nameFieldActive = !nameFieldActive;
+    }
+    else if( !nameFieldActive &&  x > introField.x && y > introField.y && x < introField.x + introField.width && y < introField.y + introField.height  ){
+        introFieldActive = !introFieldActive;
+    }
 
 }
 
@@ -274,8 +282,47 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //--------------------------------------------------------------
 void ofApp::resetFont(){
     myFont.loadFont("fonts/verdana.ttf", 32 );
-    marginTop = myFont.stringHeight( instructions[0] );
-    lineSpacing = myFont.stringHeight( instructions[0] );
+}
+
+void ofApp::reset( std::ostringstream& oss ){
+    // Initialization of Objects on Heap
+    player = new ofCharacter( "characters/blankBody.png",
+                             "characters/eyes/base.png",
+                             "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
+                             "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
+                             "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
+                             "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
+                             "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
+                             100, 100, 1.5, 1.5);
+    
+    modeParty = new ofMinigame(
+                               "PARTY",
+                               0,
+                               0,
+                               MINIGAMETIME             // target time
+                               );
+
+    // Set-Up of Party Mode
+    numOfCharacters = NUMBEROFCHARACTERS;
+    for ( int i = 0; i < numOfCharacters; i++ ) {
+        
+        characters.push_back( new ofCharacter(
+                              "characters/blankBody.png",
+                              "characters/eyes/base.png",
+                              "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
+                              "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
+                              "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
+                              "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
+                              "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
+                              ofRandom( modeParty->x, modeParty->width ),
+                              ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
+                                       modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
+                                       )
+                              )
+             );
+        
+    }
+
 }
 
 string ofApp::getRandNum( std::ostringstream& oss, int value ) {
@@ -284,9 +331,6 @@ string ofApp::getRandNum( std::ostringstream& oss, int value ) {
     return oss.str();
 }
 //--------------------------------------------------------------
-
-
-
 
 
 
