@@ -12,10 +12,10 @@
 #define INSTRUCTLENGTH 7
 #define NUMBEROFCHARACTERS 10
 
-#define NUMTOPS 1
+#define NUMTOPS 6
 #define NUMBOTTOMS 1
 #define NUMEYES 1
-#define NUMHAIR 1
+#define NUMHAIR 5
 #define NUMSHOES 1
 
 class ofApp : public ofBaseApp{

@@ -8,7 +8,14 @@ void ofApp::setup(){
     ofEnableSmoothing();
     
     // Initialization of Objects on Heap
-    player = new ofCharacter( "characters/blankBody.png", "", "", "", "", "", "", 100, 100, 1.5, 1.5);
+    player = new ofCharacter( "characters/blankBody.png",
+                             "characters/eyes/base.png",
+                             "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
+                             "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
+                             "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
+                             "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
+                             "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
+                             100, 100, 1.5, 1.5);
     
     modeParty = new ofMinigame(
        "PARTY",
@@ -273,27 +280,10 @@ void ofApp::resetFont(){
 
 string ofApp::getRandNum( std::ostringstream& oss, int value ) {
     oss.str("");
-    oss << ofRandom(1, value);
-    oss.str();
+    oss << static_cast<int>( ofRandom(1, value) );
+    return oss.str();
 }
 //--------------------------------------------------------------
-//void ofApp::quickSort( ofCharacter*[] yCharacters, int i, int j)
-//{
-//    int middle;
-//    if (yCharacters[i]->y < yCharacters[j]->y)
-//        {
-//            middle = partition(yCharacters, i, j);
-//            quicksort(num, top, middle);   // sort first section
-//            quicksort(num, middle+1, bottom);    // sort second section
-//        }
-//    return;
-//}
-//
-
-
-
-
-
 
 
 

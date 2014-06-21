@@ -42,7 +42,7 @@ public:
     
     float range;
     int footSpace;
-    ofImage charImage;
+    ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
 
     
     // Constructor

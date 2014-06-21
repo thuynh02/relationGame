@@ -13,6 +13,12 @@ ofCharacter::ofCharacter( string bodyPath, string basePath, string eyesPath, str
     : x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
     charImage.loadImage( bodyPath );
+    baseImage.loadImage( basePath );
+    eyesImage.loadImage( eyesPath );
+    hairImage.loadImage( hairPath );
+    shoesImage.loadImage( shoesPath );
+    topsImage.loadImage( topsPath );
+    bottomsImage.loadImage( bottomsPath );
     footSpace =charImage.getHeight() / 5;
     
     startTime = ofGetElapsedTimeMillis();
@@ -155,6 +161,12 @@ void ofCharacter::draw(){
     
     ofSetColor( 197, 151, 117);
     charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    baseImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    eyesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    shoesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    bottomsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    topsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    hairImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
     
     ofSetColor( 255, 255, 255, 100 );
     ofRect( x, y + MAPHEIGHT - footSpace, MAPWIDTH, footSpace );
