@@ -5,10 +5,18 @@
 #include "ofMain.h"
 #include "ofCharacter.h"
 #include "ofMinigame.h"
+#include "ofxTextSuite.h"
+#include <sstream>
 
 #define MINIGAMETIME 1
-#define FONTSIZE 32
+#define INSTRUCTLENGTH 7
 #define NUMBEROFCHARACTERS 10
+
+#define NUMTOPS 1
+#define NUMBOTTOMS 1
+#define NUMEYES 1
+#define NUMHAIR 1
+#define NUMSHOES 1
 
 class ofApp : public ofBaseApp{
 
@@ -16,7 +24,9 @@ public:
     // Public Methods
     void setup();
     void update();
+    void resetFont();
     void draw();
+    void quickSort( ofCharacter*[], int, int);
 
     void keyPressed(int key);
     void keyReleased(int key);
@@ -28,7 +38,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    enum ScreenType { START, CHARACTER, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
+    enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
     
 private:
     ScreenType currentScreen, previousScreen;
@@ -48,6 +58,18 @@ private:
     ofTrueTypeFont myFont;
     
     void mergeSortCharacters( ofCharacter** );
+    
+    ofxTextBlock        myText;
+    TextBlockAlignment  alignment;
+    
+    float marginTop, lineSpacing;
+    string instructions[ INSTRUCTLENGTH ] = {
+        "NAME: ",
+        "INSTRUCTIONS: ",
+        "HOW DO YOU WANT TO INTRODUCE YOURSELF?"
+    };
+    
+    string getRandNum( std::ostringstream&, int );
 
 };
 

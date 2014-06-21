@@ -58,7 +58,7 @@ void ofMinigame::update(){
 // Draw Method - Used to draw the minigame
 void ofMinigame::draw(){
     if( isActive ){
-        ofSetColor( 0, 0, 0 );
+//        ofSetColor( 0, 0, 0 );
         ofRect( x, y, width, height );
         // screenImage.draw(x, y, ofGetWidth(), ofGetHeight());
     }

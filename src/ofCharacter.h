@@ -12,6 +12,9 @@
 #ifndef _OF_CHARACTER
 #define _OF_CHARACTER
 
+#define MAPWIDTH 64
+#define MAPHEIGHT 96
+
 #include "ofMain.h"
 
 class ofCharacter {
@@ -19,16 +22,21 @@ class ofCharacter {
 public:
     
     // Public Methods
-    void update();
-    void update( int, int );
+    void update( bool );
     void draw();
+    
+    void animateWalkLeft();
+    void animateWalkRight();
+    void animateWalkForward();
+    void animateWalkBackward();
+    bool timeToTransition();
     
     // Public Variables
     float x;      // position
     float y;
-    float width;  // dimensions
-    float height;
-    
+    int currentPos;
+    int dirX, dirY;
+    float imgX;  // dimensions    
     float speedY; // speed and direction
     float speedX;
     
@@ -36,8 +44,15 @@ public:
     int footSpace;
     ofImage charImage;
 
+    
     // Constructor
     ofCharacter(    string imagePath,
+                    string basePath = "",
+                    string eyesPath = "",
+                    string hairPath = "",
+                    string shoesPath = "",
+                    string topsPath = "",
+                    string bottomsPath = "",
                     float x = 0,
                     float y = 0,
                     float speedX = ofRandom(-1, 1),
@@ -52,6 +67,7 @@ private:
     unsigned long long startTime;
     unsigned long long targetTime;
     unsigned long long timeLeftInMilliseconds;
+    
 };
 
 #endif

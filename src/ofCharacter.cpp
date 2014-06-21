@@ -9,12 +9,10 @@
 #define PROBTIME 5
 
 // Default Constructor - Used to create a character
-ofCharacter::ofCharacter( string imagePath, float x, float y, float speedX, float speedY )
-    : x(x), y(y), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
+ofCharacter::ofCharacter( string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
+    : x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
-    charImage.loadImage( imagePath );
-    width = charImage.getWidth();
-    height = charImage.getHeight();
+    charImage.loadImage( bodyPath );
     footSpace =charImage.getHeight() / 5;
     
     startTime = ofGetElapsedTimeMillis();
@@ -26,55 +24,138 @@ ofCharacter::ofCharacter( string imagePath, float x, float y, float speedX, floa
 
 
 // Update Method - Used to refresh character's properties
-void ofCharacter::update( int x, int y ){
-    this->x = x;
-    this->y = y;
-}
 
-void ofCharacter::update(){
+void ofCharacter::update( bool player){
     
-    // Every PROBTIME seconds, check if it is time to alter between walking and standing
-    if( ofGetElapsedTimeMillis() - startTime > PROBTIME * 1000 ){
-        if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
+    if ( player ){
+        x += dirX * speedX;
+        y += dirY * speedY;
+    }
+    else{
+        // Every PROBTIME seconds, check if it is time to alter between walking and standing
+        if( ofGetElapsedTimeMillis() - startTime > PROBTIME * 1000 ){
+            if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
+            startTime = ofGetElapsedTimeMillis();
+        }
+        
+        if( isWalking ) {
+            
+            if( x < 0 ){
+                x = 0;
+                speedX *= ofRandom(-1.5, -0.5);
+            } else if( x + MAPWIDTH > ofGetWidth() ){
+                x = ofGetWidth() - MAPWIDTH;
+                speedX *= ofRandom(-1.5, -0.5);
+            }
+            
+            if( y < 0 ){
+                y = 0;
+                speedY *= ofRandom(-1.5, -0.5);
+            } else if( y + MAPHEIGHT > ofGetHeight() ){
+                y = ofGetHeight() - MAPHEIGHT;
+                speedY *= ofRandom(-1.5, -0.5);
+            }
+            
+            x += speedX;
+            y += speedY;
+            
+            if( speedX > 0 ) { dirX = 1; }
+            else if( speedX == 0 ) { dirX = 0; }
+            else if( speedX < 0 ) { dirX = -1; }
+            
+            if( speedY > 0 ) { dirY = 1; }
+            else if( speedY == 0 ) { dirY = 0; }
+            else if( speedY < 0 ) { dirY = -1; }
+        }
+    }
+
+    // LEFT: X = -1, Y = 0
+    if( dirX == -1 ){
+        animateWalkLeft();
+    }
+    // RIGHT: X = 1, Y = 0
+    else if( dirX == 1 ){
+        animateWalkRight();
+    }
+    // UP: X = 0, Y = -1
+    else if( dirY == -1 ){
+        animateWalkBackward();
+    }
+    // DOWN: X = 0, Y = 1
+    else if( dirY == 1 ){
+        animateWalkForward();
+    }
+}
+bool ofCharacter::timeToTransition(){
+    if( ofGetElapsedTimeMillis() - startTime > 100 ){
         startTime = ofGetElapsedTimeMillis();
+        return true;
     }
-    
-    if( isWalking ) {
-        if( x < 0 ){
-            x = 0;
-            speedX *= ofRandom(-1.5, -0.5);
-        } else if( x + width > ofGetWidth() ){
-            x = ofGetWidth() - width;
-            speedX *= ofRandom(-1.5, -0.5);
-        }
-        
-        if( y < 0 ){
-            y = 0;
-            speedY *= ofRandom(-1.5, -0.5);
-        } else if( y + height > ofGetHeight() ){
-            y = ofGetHeight() - height;
-            speedY *= ofRandom(-1.5, -0.5);
-        }
-        
-        x += speedX;
-        y += speedY;
+    return false;
+}
+
+void ofCharacter::animateWalkLeft(){
+    if( timeToTransition() ){
+        currentPos++;
+        if( currentPos >= 4 ) { currentPos = 0; }
     }
 }
 
+void ofCharacter::animateWalkForward(){
+    if( timeToTransition() ){
+        currentPos++;
+        if( currentPos >= 8 ) { currentPos = 4; }
+    }
+}
 
+void ofCharacter::animateWalkRight(){
+    if( timeToTransition() ){
+        currentPos++;
+        if( currentPos >= 12 ) { currentPos = 8; }    }
+}
 
+void ofCharacter::animateWalkBackward(){
+    if( timeToTransition() ){
+        currentPos++;
+        if( currentPos >= 16 ) { currentPos = 12; }
+    }
+}
+
+//Light blue: R43, G141, B148
+//
+//Light green:
+//R90, G113, B60
+//
+//Blue-Purple:
+//R: 133, G117, B:196
+//
+//purple:
+//r196, g117, b172
+//
+//red:
+//r122, g41, b51
+//
+//yellow:
+//r248, g237, b60
+//
+//
+//skin 1:
+//r196, g151, b117
+//
+//skin 2:
+//r97, g61, b 41
 
 // Update Method - Used to refresh character's properties
 void ofCharacter::draw(){
     ofSetColor( 120, 120, 120 );
-    ofEllipse( x + width/2,
-              y + height,
-              range * (height) / 2,
-              range * (height) / 4 );
+    ofEllipse( x + MAPWIDTH/2,
+              y + MAPHEIGHT,
+              range * (MAPHEIGHT) / 2,
+              range * (MAPHEIGHT) / 4 );
     
-    ofSetColor( 255, 255, 255 );
-    charImage.draw(x, y, width, height);
+    ofSetColor( 197, 151, 117);
+    charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
     
     ofSetColor( 255, 255, 255, 100 );
-    ofRect( x, y + height - footSpace, width, footSpace );
+    ofRect( x, y + MAPHEIGHT - footSpace, MAPWIDTH, footSpace );
 }
