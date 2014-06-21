@@ -19,7 +19,8 @@ class ofCharacter {
 public:
     
     // Public Methods
-    void update( int, int);
+    void update();
+    void update( int, int );
     void draw();
     
     // Public Variables
@@ -45,8 +46,12 @@ public:
     
     // Destructor
     ~ofCharacter();
-private:
     
+private:
+    bool isWalking;
+    unsigned long long startTime;
+    unsigned long long targetTime;
+    unsigned long long timeLeftInMilliseconds;
 };
 
 #endif

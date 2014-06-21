@@ -15,11 +15,11 @@ void ofApp::setup(){
         ofGetHeight() / 8,       // y-Position
         (ofGetWidth() / 8) * 6,  // width
         (ofGetHeight() / 8) * 6, // height
-        3                        // target time
+        MINIGAMETIME             // target time
     );
     
     // Loading Fonts
-    myFont.loadFont("fonts/verdana.ttf", 32);
+    myFont.loadFont("fonts/verdana.ttf", FONTSIZE);
     
     // Loading Logo
     logo.loadImage( "gameLogo.jpg" );
@@ -31,7 +31,7 @@ void ofApp::setup(){
     currentScreen = START;
     
     // Set-Up of Party Mode
-    numOfCharacters = 10;
+    numOfCharacters = NUMBEROFCHARACTERS;
     characters = new ofCharacter*[numOfCharacters];
     for ( int i = 0; i < numOfCharacters; i++ ) {
         characters[i] = new ofCharacter(
@@ -49,8 +49,12 @@ void ofApp::setup(){
 void ofApp::update(){
     
     modeParty->update();
+    
     player->update(mouseX, mouseY);
     
+    for ( int i = 0; i < numOfCharacters; i++ ) {
+        characters[i]->update();
+    }
     
 }
 
@@ -201,3 +205,27 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
 }
+
+//--------------------------------------------------------------
+//void ofApp::mergeSortCharacters( ofCharacter** subChar ){
+//    // i is inclusive, j is exclusive, both represent indicies
+//    int middle = ofGetHeight()/2;
+//    
+//    if( j - 1 <=  ) { return; }
+//    
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

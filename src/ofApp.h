@@ -6,6 +6,10 @@
 #include "ofCharacter.h"
 #include "ofMinigame.h"
 
+#define MINIGAMETIME 3
+#define FONTSIZE 32
+#define NUMBEROFCHARACTERS 10
+
 class ofApp : public ofBaseApp{
 
 public:
@@ -42,6 +46,8 @@ private:
     
     char timerString[255];
     ofTrueTypeFont myFont;
+    
+    void mergeSortCharacters( ofCharacter** );
 
 };
 

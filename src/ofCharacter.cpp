@@ -6,15 +6,19 @@
 //
 
 #include "ofCharacter.h"
+#define PROBTIME 5
 
 // Default Constructor - Used to create a character
 ofCharacter::ofCharacter( string imagePath, float x, float y, float speedX, float speedY )
-    : x(x), y(y), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) )
+    : x(x), y(y), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
     charImage.loadImage( imagePath );
     width = charImage.getWidth();
     height = charImage.getHeight();
     footSpace =charImage.getHeight() / 5;
+    
+    startTime = ofGetElapsedTimeMillis();
+
 }
 
 
@@ -27,7 +31,35 @@ void ofCharacter::update( int x, int y ){
     this->y = y;
 }
 
-
+void ofCharacter::update(){
+    
+    // Every PROBTIME seconds, check if it is time to alter between walking and standing
+    if( ofGetElapsedTimeMillis() - startTime > PROBTIME * 1000 ){
+        if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
+        startTime = ofGetElapsedTimeMillis();
+    }
+    
+    if( isWalking ) {
+        if( x < 0 ){
+            x = 0;
+            speedX *= ofRandom(-1.5, -0.5);
+        } else if( x + width > ofGetWidth() ){
+            x = ofGetWidth() - width;
+            speedX *= ofRandom(-1.5, -0.5);
+        }
+        
+        if( y < 0 ){
+            y = 0;
+            speedY *= ofRandom(-1.5, -0.5);
+        } else if( y + height > ofGetHeight() ){
+            y = ofGetHeight() - height;
+            speedY *= ofRandom(-1.5, -0.5);
+        }
+        
+        x += speedX;
+        y += speedY;
+    }
+}
 
 
 
