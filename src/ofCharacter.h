@@ -19,7 +19,7 @@ class ofCharacter {
 public:
     
     // Public Methods
-    void update();
+    void update( int, int);
     void draw();
     
     // Public Variables
@@ -29,9 +29,11 @@ public:
     float speedX;
     int dim;      // size
     
-    // Costructor
+    // Constructor
     ofCharacter();
     
+    // Destructor
+    ~ofCharacter();
 private:
     
 };
