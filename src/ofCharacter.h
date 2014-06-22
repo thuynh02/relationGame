@@ -43,6 +43,7 @@ public:
     float range;
     int footSpace;
     ofRectangle footRect;
+    ofRectangle rangeRect;
     
     int charIndex;
     ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;

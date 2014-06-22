@@ -27,8 +27,8 @@ public:
     void reset(std::ostringstream&);
     void resetFont();
     void draw();
-    void quickSort( ofCharacter*[], int, int);
-
+    void quickSort( ofCharacter*[], int, int );
+    
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
@@ -54,6 +54,9 @@ private:
     int numOfCharacters;
     vector<ofCharacter*> characters; // Array of Characters
     ofMinigame* modeParty;
+    ofImage checkpointSprite;
+    ofImage miniCursor;
+    int trackX, trackY;
     
     char timerString[255];
     ofTrueTypeFont myFont;

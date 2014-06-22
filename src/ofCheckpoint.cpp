@@ -9,4 +9,8 @@
 #include "ofCheckpoint.h"
 
 ofCheckpoint::ofCheckpoint( int newX, int newY, char newType )
-:x( newX ), y( newY ), type( newType ){}
+:x( newX ), y( newY ), type( newType ) {}
+
+void ofCheckpoint::referToImage(ofImage* imageRef){
+    sprite = imageRef;
+}

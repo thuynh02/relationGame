@@ -20,7 +20,7 @@ public:
     void update();
     void draw();
     void resetSize( float, float );
-    void loadLevel(int level);
+    void loadLevel(int level, ofImage* spriteReference);
     void drawLevel();
 //    void drawTimer();
     

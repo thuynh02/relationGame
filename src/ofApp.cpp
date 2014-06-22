@@ -50,7 +50,9 @@ void ofApp::setup(){
     numOfCharacters = NUMBEROFCHARACTERS;
         
     // Set-Up of Minigame (First level test)
-    modeParty->loadLevel(1);
+    miniCursor.loadImage("../../../data/general/checkpoint.png");
+    checkpointSprite.loadImage( "../../../data/general/checkpoint.png");
+    modeParty->loadLevel(1, &checkpointSprite );
     
     if(currentScreen == INSTRUCTIONS ) { ofShowCursor(); }
     else { ofHideCursor();}
@@ -191,6 +193,10 @@ void ofApp::draw(){
         myFont.drawString(timerString, ofGetWidth()/2 - myFont.stringWidth( timerString )/2, 40);
         
         modeParty->drawLevel();
+        
+        ofSetColor( 135, 95, 95 );
+        miniCursor.draw( trackX-miniCursor.width/4, trackY-miniCursor.height/4,
+                         miniCursor.width/2, miniCursor.height/2);
     }
 }
 
@@ -357,6 +363,11 @@ void ofApp::keyReleased(int key){
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
     ofShowCursor();
+    if( currentScreen == MINIGAME ){
+        ofHideCursor();
+        trackX = x;
+        trackY = y;
+    }
 }
 
 //--------------------------------------------------------------
@@ -456,6 +467,11 @@ string ofApp::getNumToStr( std::ostringstream& oss, int value ) {
     return oss.str();
 }
 //--------------------------------------------------------------
+
+
+
+
+
 
 
 

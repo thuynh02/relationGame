@@ -6,6 +6,7 @@
 //
 //
 
+#include "ofMain.h"
 #include "ofMinigame.h"
 
 // Default Constructor - Used to create a minigame
@@ -71,12 +72,19 @@ void ofMinigame::resetSize( float x, float y ){
     this->height = ofGetHeight();
 };
 
-void ofMinigame::loadLevel(int level){
+void ofMinigame::loadLevel(int level, ofImage* spriteReference){
     std::ostringstream oss;
     oss << level;
     levelImage.loadImage("../../../data/levels/level" + oss.str() + ".png" );
     pointImage.loadImage("../../../data/general/checkpoint.png" );
     checkpoints = new ofLevelCheckpoints( level, "../../../data/levels/level" + oss.str() + ".txt" );
+    for( size_t i = 0; i < checkpoints->listOfPoints.size(); ++i ){
+        checkpoints->listOfPoints[i]->referToImage(spriteReference);
+        checkpoints->listOfPoints[i]->boundary = new ofRectangle(checkpoints->listOfPoints[i]->x,
+                                                                 checkpoints->listOfPoints[i]->y,
+                                                                 spriteReference->width,
+                                                                 spriteReference->height);
+    }
 }
 
 
@@ -87,11 +95,11 @@ void ofMinigame::drawLevel(){
     
     for( size_t i = 0; i < checkpoints->listOfPoints.size(); ++i ){
         if( checkpoints->listOfPoints[i]->type == 'S' ){ ofSetColor( 90,160,90 ); }
-        pointImage.update();
-        pointImage.draw( (levelPosX + checkpoints->listOfPoints[i]->x) - pointImage.width/2,
-                         (levelPosY + checkpoints->listOfPoints[i]->y) - pointImage.height/2,
-                         pointImage.width, pointImage.height );
+        checkpoints->listOfPoints[i]->sprite->draw(
+            (levelPosX + checkpoints->listOfPoints[i]->x) - pointImage.width/2,
+            (levelPosY + checkpoints->listOfPoints[i]->y) - pointImage.height/2,
+             pointImage.width, pointImage.height
+        );
     }
-    
 }
 

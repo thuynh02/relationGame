@@ -30,6 +30,10 @@ ofCharacter::ofCharacter( string name, string introduction, int charIndex, strin
 
     footSpace =charImage.getHeight() / 5;
     footRect = ofRectangle(x, y + MAPHEIGHT - footSpace, MAPWIDTH, footSpace );
+    rangeRect = ofRectangle(x + MAPWIDTH/2,
+                            y + MAPHEIGHT,
+                            range * (MAPHEIGHT) / 2,
+                            range * (MAPHEIGHT) / 4 );
     
     startTime = ofGetElapsedTimeMillis();
 
