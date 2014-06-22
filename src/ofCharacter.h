@@ -45,10 +45,14 @@ public:
     ofRectangle footRect;
     ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
 
+    
+    string name, introduction;
     bool operator<( ofCharacter& rhs);
     
     // Constructor
-    ofCharacter(    string imagePath,
+    ofCharacter(    string name,
+                    string introduction,
+                    string imagePath,
                     string basePath = "",
                     string eyesPath = "",
                     string hairPath = "",
@@ -65,6 +69,7 @@ public:
     ~ofCharacter();
     
 private:
+    
     bool isWalking;
     unsigned long long startTime;
     unsigned long long targetTime;

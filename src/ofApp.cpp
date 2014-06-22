@@ -37,23 +37,7 @@ void ofApp::setup(){
     
     // Set-Up of Party Mode
     numOfCharacters = NUMBEROFCHARACTERS;
-    for ( int i = 0; i < numOfCharacters; i++ ) {
         
-        characters[i] = new ofCharacter(
-            "characters/blankBody.png",
-            "characters/eyes/base.png",
-            "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
-            "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
-            "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
-            "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
-            "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
-            ofRandom( modeParty->x, modeParty->width ),
-            ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
-                        modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
-            )
-        );
-    }
-    
     // Set-Up of Minigame (First level test)
     modeParty->loadLevel(1);
     
@@ -156,6 +140,8 @@ void ofApp::keyPressed(int key){
         if( nameInput != "" && introInput != "" && key == OF_KEY_RETURN ){
             previousScreen = INSTRUCTIONS;
             currentScreen = PARTY;
+            player->name = nameInput;
+            player->introduction = introInput;
         }
         else if( nameFieldActive && !introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
@@ -317,7 +303,10 @@ void ofApp::resetFont(){
 
 void ofApp::reset( std::ostringstream& oss ){
     // Initialization of Objects on Heap
-    player = new ofCharacter( "characters/blankBody.png",
+    player = new ofCharacter(
+                             "",
+                             "",
+                             "characters/blankBody.png",
                              "characters/eyes/base.png",
                              "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
                              "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
@@ -338,6 +327,7 @@ void ofApp::reset( std::ostringstream& oss ){
     for ( int i = 0; i < numOfCharacters; i++ ) {
         
         characters.push_back( new ofCharacter(
+                              "", "",
                               "characters/blankBody.png",
                               "characters/eyes/base.png",
                               "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",

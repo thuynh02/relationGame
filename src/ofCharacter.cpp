@@ -9,8 +9,8 @@
 #define PROBTIME 5
 
 // Default Constructor - Used to create a character
-ofCharacter::ofCharacter( string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
-    : x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
+ofCharacter::ofCharacter( string name, string introduction, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
+    : name(name), introduction( introduction), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
     charImage.loadImage( bodyPath );
     baseImage.loadImage( basePath );
