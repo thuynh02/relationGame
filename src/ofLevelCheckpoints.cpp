@@ -52,6 +52,7 @@ ofLevelCheckpoints::ofLevelCheckpoints( int currentLevel, std::string coordinate
             }
             listOfPoints.push_back( new ofCheckpoint(x, y, type) );
         }
+        ifs.close();
     }
 }
 

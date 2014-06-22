@@ -1,5 +1,6 @@
 #include "ofApp.h"
 #include <string>
+#include <fstream>
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -43,6 +44,38 @@ void ofApp::setup(){
     
     if(currentScreen == INSTRUCTIONS ) { ofShowCursor(); }
     else { ofHideCursor();}
+    
+    // Fetching dialogue
+    
+    vector< vector<string> > textData;
+    vector<string> goodMini, midMini, badMini, names;
+    textData.push_back( goodMini );
+    textData.push_back( midMini );
+    textData.push_back( badMini );
+    textData.push_back( names );
+    
+    
+    
+    std::ifstream ifs( "../../../data/general/dialogue.txt" );
+    std::string delimiter = ":";
+    size_t pos = 0;
+    std::string token;
+    
+    if( ifs ){
+        std::string line;
+        while( getline( ifs, line ) ){
+            if( (pos = line.find(delimiter)) != std::string::npos){
+                token = line.substr( 0, pos );
+                line.erase( 0, pos + delimiter.length() );
+                     if ( token == "g" ){ textData[GOOD_MINI].push_back(line); }
+                else if ( token == "m" ){ textData[MID_MINI].push_back(line); }
+                else if ( token == "b" ){ textData[BAD_MINI].push_back(line); }
+                else if ( token == "n" ){ textData[NAMES].push_back(line); }
+            }
+        }
+        ifs.close();
+    }
+
 }
 
 //--------------------------------------------------------------

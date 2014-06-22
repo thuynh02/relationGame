@@ -40,6 +40,7 @@ public:
     void gotMessage(ofMessage msg);
     
     enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
+    enum DialogueType { GOOD_MINI, MID_MINI, BAD_MINI, NAMES };
     
 private:
     ScreenType currentScreen, previousScreen;
