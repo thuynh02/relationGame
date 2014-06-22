@@ -24,6 +24,7 @@ public:
     // Public Methods
     void update( bool );
     void draw();
+    void drawProfile( float, float );
     
     void animateWalkLeft();
     void animateWalkRight();
@@ -50,13 +51,16 @@ public:
     ofColor charColor, eyesColor, hairColor, shoesColor, topsColor, bottomsColor;
     string name, introduction;
     
-    void genColor( ofColor& );
+    void genColor( ofColor&, int rL = 0, int gL = 0, int bL = 0, int rU = 255, int gU = 255, int bU = 255);
     void endConvo();
     void startConvo( ofCharacter* );
     
     bool inConvo;
     bool isWalking;
     ofCharacter* convoPartner;
+    
+    vector<string> interests;
+    void setInterests( string );
     
     // Constructor
     ofCharacter(    string name,

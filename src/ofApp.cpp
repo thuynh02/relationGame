@@ -65,6 +65,7 @@ void ofApp::setup(){
     
     // Loading Screen
     screenBG.loadImage( "screens/logoandstart.jpg" );
+    convoGrad.loadImage( "screens/gradient.png" );
     
     // Set-Up of Screens
     currentScreen = START;
@@ -111,14 +112,6 @@ void ofApp::update(){
         
         for ( int i = 0; i < numOfCharacters; i++ ) { 
             characters[i]->update( false );
-//            if( !player->inConvo && player->footRect.intersects( characters[i]->footRect ) ){
-//                if( !characters[i]->inConvo ){
-//                    player->inConvo = true;
-//                    player->convoPartner = characters[i];
-//                    characters[i]->inConvo = true;
-//                    characters[i]->convoPartner = player;
-//                }
-//            }
         }
         
         // Reorder
@@ -190,6 +183,7 @@ void ofApp::draw(){
         
         if( player->inConvo ){
             ofSetColor(255, 255, 255);
+            convoGrad.draw( 0, 0, ofGetWidth(), ofGetHeight());
             myFont.drawString(player->name, 0, ofGetHeight()/2 + myFont.stringHeight(player->name)/2 );
         }
         
@@ -223,6 +217,26 @@ void ofApp::draw(){
         if( !playingMini ){
             modeParty->loadLevel( static_cast<int>(ofRandom(1, MAX_LEVELS)), &checkpointSprite );
             currentScreen = PARTY;
+        }
+    }
+    else if( currentScreen == MENU ){
+        
+        ofSetColor( 0, 0, 0 );
+        
+        int row = ( numOfCharacters % (ofGetHeight()/MAPHEIGHT));
+        int col = ( numOfCharacters / row);
+        
+        for( int i = 0; i < numOfCharacters; i++ ){
+            characters[i]->drawProfile( ( i % row ) * ( ofGetWidth() / row ), ( i % col ) * MAPHEIGHT );
+            
+            ofSetColor(255, 255, 255)
+            ;            myFont.loadFont("fonts/verdana.ttf", 12 );
+            myFont.drawString(characters[i]->name, ( i % row ) * ( ofGetWidth() / row ) + MAPWIDTH, (( i % col ) + 1 ) * (MAPHEIGHT) - (MAPHEIGHT*0.75));
+            
+            myFont.loadFont("fonts/verdana.ttf", 10 );
+            for( int j = 0; j < characters[i]->interests.size(); j++ ){
+                myFont.drawString(characters[i]->interests[j], ( i % row ) * ( ofGetWidth() / row ) + MAPWIDTH, (( i % col ) + 1 ) * (MAPHEIGHT) - (MAPHEIGHT*0.75) + myFont.getLineHeight()* ( j + 1 ) );
+            }
         }
     }
 }
@@ -300,59 +314,60 @@ void ofApp::keyPressed(int key){
             }
         
         }
-        
-        if( key == 'w' ){
-            player->dirY = -1;
-            if( (player->currentPos >= 16 || player->currentPos < 12) && player->dirX == 0 ){
-                player->currentPos = 12;
+        if (!player->inConvo ){
+            if( key == 'w' ){
+                player->dirY = -1;
+                if( (player->currentPos >= 16 || player->currentPos < 12) && player->dirX == 0 ){
+                    player->currentPos = 12;
+                }
             }
-        }
-        if( key == 'a' ){
-            player->dirX = -1;
-            if( player->currentPos >= 4){
-                player->currentPos = 0;
+            if( key == 'a' ){
+                player->dirX = -1;
+                if( player->currentPos >= 4){
+                    player->currentPos = 0;
+                }
             }
-        }
-        if( key == 's' ){
-            player->dirY = 1;
-            if( (player->currentPos >= 8 || player->currentPos < 4) && player->dirX == 0 ){
-                player->currentPos = 4;
+            if( key == 's' ){
+                player->dirY = 1;
+                if( (player->currentPos >= 8 || player->currentPos < 4) && player->dirX == 0 ){
+                    player->currentPos = 4;
+                }
             }
-        }
-        if( key == 'd' ){
-            player->dirX = 1;
-            if( (player->currentPos >= 12 || player->currentPos < 8) ){
-                player->currentPos = 8;
+            if( key == 'd' ){
+                player->dirX = 1;
+                if( (player->currentPos >= 12 || player->currentPos < 8) ){
+                    player->currentPos = 8;
+                }
             }
-        }
-        if( key == 'i' ){
-            std::string intro = textData[INTROS][ static_cast<int>( ofRandom(textData[INTROS].size()) ) ];
-            std::string delimiter = "#@*&`+$";
-            std::size_t prev = 0, pos;
-            std::string token;
-            
-            while( (pos = intro.find_first_of(delimiter)) != std::string::npos){
-                token = intro.substr( pos, 1 );
-                intro.erase( pos, 1 );
-                if ( token == "@" ){
-                    intro.insert(pos, textData[PLACES][static_cast<int>(ofRandom(textData[PLACES].size()))]);
+            if( key == 'i' ){
+                std::string intro = textData[INTROS][ static_cast<int>( ofRandom(textData[INTROS].size()) ) ];
+                std::string delimiter = "#@*&`+$";
+                std::size_t prev = 0, pos;
+                std::string token;
+                
+                while( (pos = intro.find_first_of(delimiter)) != std::string::npos){
+                    token = intro.substr( pos, 1 );
+                    intro.erase( pos, 1 );
+                    if ( token == "@" ){
+                        intro.insert(pos, textData[PLACES][static_cast<int>(ofRandom(textData[PLACES].size()))]);
+                    }
+                    else if ( token == "*" ){
+                        intro.insert(pos, textData[LIKES][static_cast<int>(ofRandom(textData[LIKES].size()))]);
+                    }
+                    else if ( token == "&" ){
+                        intro.insert(pos, textData[SHOWS][static_cast<int>(ofRandom(textData[SHOWS].size()))]);
+                    }
+                    else if ( token == "`" ){
+                        intro.insert(pos, textData[GROUPS][static_cast<int>(ofRandom(textData[GROUPS].size()))]);
+                    }
+                    else if ( token == "+" ){
+                        intro.insert(pos, textData[INTERESTS][static_cast<int>(ofRandom(textData[INTERESTS].size()))]);
+                    }
+                    else if ( token == "$" ){
+                        intro.insert(pos, textData[PAST][static_cast<int>(ofRandom(textData[PAST].size()))]);
+                    }
+                    else if ( token == "#" ){ intro.erase( pos, 4 ); intro.insert( pos, "TEST7" ); }
                 }
-                else if ( token == "*" ){
-                    intro.insert(pos, textData[LIKES][static_cast<int>(ofRandom(textData[LIKES].size()))]);
-                }
-                else if ( token == "&" ){
-                    intro.insert(pos, textData[SHOWS][static_cast<int>(ofRandom(textData[SHOWS].size()))]);
-                }
-                else if ( token == "`" ){
-                    intro.insert(pos, textData[GROUPS][static_cast<int>(ofRandom(textData[GROUPS].size()))]);
-                }
-                else if ( token == "+" ){
-                    intro.insert(pos, textData[INTERESTS][static_cast<int>(ofRandom(textData[INTERESTS].size()))]);
-                }
-                else if ( token == "$" ){
-                    intro.insert(pos, textData[PAST][static_cast<int>(ofRandom(textData[PAST].size()))]);
-                }
-                else if ( token == "#" ){ intro.erase( pos, 4 ); intro.insert( pos, "TEST7" ); }
             }
         }
         
@@ -382,7 +397,8 @@ void ofApp::keyPressed(int key){
         previousScreen = ENDING;
         
         // Change currentScreen, based on key, to START, PAUSE
-        if( key == ' ' ) {
+        if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
+        else {
             currentScreen = START;
             delete player;
             delete modeParty;
@@ -394,7 +410,6 @@ void ofApp::keyPressed(int key){
             std::ostringstream oss;
             reset( oss );
         }
-        else if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
         
     }
     
@@ -493,19 +508,19 @@ void ofApp::reset( std::ostringstream& oss ){
     introduction.clear();
     introduction.push_back( "" );
     player = new ofCharacter(
-                             "",
-                             "",
-                             1,
-                             "characters/blankBody.png",
-                             "characters/eyes/base.png",
-                             "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
-                             "characters/shoes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMSHOES) ) ) + ".png",
-                             "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
-                             "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
-                             "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
-                             100, 100, 1.5, 1.5
-                             );
-    
+                 "",
+                 "",
+                 1,
+                 "characters/blankBody.png",
+                 "characters/eyes/base.png",
+                 "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
+                 "characters/shoes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMSHOES) ) ) + ".png",
+                 "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
+                 "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
+                 "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
+                 100, 100, 1.5, 1.5
+                 );
+
     modeParty = new ofMinigame(
                                "PARTY",
                                0,
@@ -518,23 +533,23 @@ void ofApp::reset( std::ostringstream& oss ){
     for ( int i = 0; i < numOfCharacters; i++ ) {
         
         characters.push_back( new ofCharacter(
-                              textData[NAMES][ static_cast<int>( ofRandom( textData[NAMES].size() ) ) ],
-                              getNumToStr( oss, i*5 ),
-                              i+1,
-                              "characters/blankBody.png",
-                              "characters/eyes/base.png",
-                              "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
-                              "characters/shoes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMSHOES) ) ) + ".png",
-                              "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
-                              "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
-                              "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
-                              ofRandom( modeParty->x, modeParty->width ),
-                              ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
-                                       modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
-                                       )
-                              )
+                  textData[NAMES][ static_cast<int>( ofRandom( textData[NAMES].size() ) ) ],
+                  getNumToStr( oss, i*5 ),
+                  i+1,
+                  "characters/blankBody.png",
+                  "characters/eyes/base.png",
+                  "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
+                  "characters/shoes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMSHOES) ) ) + ".png",
+                  "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
+                  "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
+                  "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
+                  ofRandom( modeParty->x, modeParty->width ),
+                  ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
+                           modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
+                           )
+                  )
              );
-        
+        for( int j = 0; j < 5; j++ ) { characters[ characters.size() - 1 ]->setInterests( "TEST" ); }
     }
 
 }
