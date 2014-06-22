@@ -39,8 +39,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
-    enum DialogueType { GOOD_MINI, MID_MINI, BAD_MINI, NAMES };
+    enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, MENU, ENDING };
+    enum DialogueType { GOOD_MINI, MID_MINI, BAD_MINI, NAMES, PLACES, LIKES, SHOWS, GROUPS, INTERESTS, PAST, INTROS };
     
 private:
     ScreenType currentScreen, previousScreen;
@@ -54,6 +54,9 @@ private:
     int numOfCharacters;
     vector<ofCharacter*> characters; // Array of Characters
     ofMinigame* modeParty;
+    vector< vector<string> > textData;
+    vector<string> goodMini, midMini, badMini, names, places, likes, shows, groups, interests, pastAction, intros;
+    
     ofImage checkpointSprite;
     ofImage miniCursor;
     int trackX, trackY;

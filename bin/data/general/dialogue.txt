@@ -230,3 +230,56 @@ n:Dominga
 n:Ranulfo
 n:Snake
 n:Shephard
+@:the coffee shop
+@:the library
+@:school
+@:the office party
+@:another party
+@:the local bar
+@:the pet shop
+@:Angel's Share
+*:appreciates small chat
+*:loves assorted flora and fauna
+*:is discerning about graphic novels
+*:likes quiet conversation
+*:adores good music
+*:likes to dance for fun
+*:likes to keep to themselves
+*:loves experimental interactive narratives
+&:Doctor Who
+&:Hannibal
+&:The World Cup
+&:Dateline
+&:Sleepy Hollow
+&:The Daily Show
+&:the sun rising
+&:other people
+`:trivia team
+`:paintball league
+`:cosplay troupe
+`:astronomy club
+`:new meetup group
+`:chem study group
+`:bowling team
+`:gang of ne'er do wells
++:decorative antique frames
++:independent games
++:debates about the Euro
++:ancient Greek sculpture
++:modern architecture
++:gyroscopes
++:movements of stars
++:80's synth pop bands
+$:dancing in line
+$:dressed up all fancy
+$:carrying a ton of books
+$:singing a little too loud
+$:sharing pictures of my cat
+$:cleaning up a spilled drink
+$:giving everyone a hug
+$:upset about Godzilla
+i:Hey there, I'm #NAME and it's nice to see you. I think I might have seen you around at @ before? You're Ibrahim's friend, yeah? I was the person that was $ haha! Maybe we remember each other?
+i:Hi! You look nice, and like someone who *. I'm #NAME. I don't know most of the people here so I'm a little out of my element. Um... um... say do you watch &?
+i:Oh, hello. I don't think we've met, my name is #NAME. Pleasure to meet you... I suppose, by chance, would you happen to be interested in +? It's... a passion of mine you could say.
+i:What? Oh. Yeah good seeing you. I was in the middle of trying to find someone to join my `, do you think you might be able to help? What? Oh my name's #NAME.
+i:Hey! It's good to see you again. I didn't get much of a chance to get to know you before at @. My name's #NAME, remember? If I remember right we talked about & the last time we met.
