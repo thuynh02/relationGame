@@ -248,19 +248,31 @@ void ofApp::keyPressed(int key){
         
         if( key == 'w' ){
             player->dirY = -1;
-            if( player-> currentPos > 15 || player-> currentPos < 12 ) player->currentPos = 12;
+            if( (player->currentPos > 15 || player->currentPos < 12) && player->dirX == 0 ){
+                player->currentPos = 12;
+            }
         }
         if( key == 'a' ){
             player->dirX = -1;
-            if( player-> currentPos > 3 ) player->currentPos = 0;
+            if( player->currentPos > 3 ){
+                player->currentPos = 0;
+            }
         }
         if( key == 's' ){
             player->dirY = 1;
-            if( player-> currentPos > 7 || player-> currentPos < 4 ) player->currentPos = 4;
+            if( (player->currentPos > 7 || player->currentPos < 4) && player->dirX == 0 ){
+                player->currentPos = 4;
+            }
         }
         if( key == 'd' ){
             player->dirX = 1;
-            if( player-> currentPos > 11 || player-> currentPos < 8 ) player->currentPos = 8;
+            if( player->currentPos > 11 || player->currentPos < 8 ){
+                player->currentPos = 8;
+            }
+        }
+        if( key == 'i' ){
+            player->speedX += .3;
+            player->speedY += .3;
         }
         
     }
@@ -320,15 +332,19 @@ void ofApp::keyReleased(int key){
         
         if( key == 'w' ){
             player->dirY = 0;
+            player->currentPos = 12;
         }
         if( key == 'a' ){
             player->dirX = 0;
+            player->currentPos = 0;
         }
         if( key == 's' ){
             player->dirY = 0;
+            player->currentPos = 4;
         }
         if( key == 'd' ){
             player->dirX = 0;
+            player->currentPos = 8;
         }
         
     }

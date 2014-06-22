@@ -101,7 +101,12 @@ void ofCharacter::update( bool player){
         else if( dirY == 1 ){
             animateWalkForward();
         }
-
+    }
+    else{
+        if( currentPos >= 0 && currentPos < 4 ){ currentPos = 0; }
+        else if( currentPos >= 4 && currentPos < 8 ){ currentPos = 4; }
+        else if( currentPos >= 8 && currentPos < 12){ currentPos = 8; }
+        else if( currentPos >= 12 && currentPos <= 16 ){ currentPos = 12; }
     }
     
     footRect.setPosition(x, y + MAPHEIGHT - footSpace );
@@ -113,7 +118,7 @@ void ofCharacter::update( bool player){
 
 
 bool ofCharacter::timeToTransition(){
-    if( ofGetElapsedTimeMillis() - targetTime > 100 ){
+    if( ofGetElapsedTimeMillis() - targetTime > 130-(10*(speedX+speedY)) ){
         targetTime = ofGetElapsedTimeMillis();
         return true;
     }
