@@ -8,7 +8,7 @@
 #include "ofxTextSuite.h"
 #include <sstream>
 
-#define MINIGAMETIME 1
+#define MINIGAMETIME 5
 #define INSTRUCTLENGTH 7
 #define NUMBEROFCHARACTERS 28
 #define MAPWIDTH 64
@@ -47,6 +47,8 @@ public:
     enum DialogueType { GOOD_MINI, MID_MINI, BAD_MINI, NAMES, PLACES, LIKES, SHOWS, GROUPS, HOBBIES, PAST, INTROS, INTERESTS };
     
 private:
+    int prevKey;
+    
     ScreenType currentScreen, previousScreen;
     
     vector< vector<string> > textData;
@@ -79,7 +81,7 @@ private:
     ofxTextBlock        myText;
     TextBlockAlignment  alignment;
     
-    float marginTop, lineSpacing;
+    float marginTop, lineSpacing, startDialogue;
 
     string getNumToStr( std::ostringstream&, int );
     
@@ -89,8 +91,12 @@ private:
     ofRectangle introField;
     
     vector<string> instructions;
-    vector<string> introduction;
     vector<float> yPoses;
+    
+    
+    unsigned long long startTime;
+    unsigned long long targetTime;
+    unsigned long long timeLeftInMilliseconds;
 
 };
 

@@ -49,7 +49,7 @@ public:
     int charIndex;
     ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
     ofColor charColor, eyesColor, hairColor, shoesColor, topsColor, bottomsColor;
-    string name, introduction;
+    string name;
     
     void genColor( ofColor&, int rL = 0, int gL = 0, int bL = 0, int rU = 255, int gU = 255, int bU = 255);
     void endConvo();
@@ -59,12 +59,15 @@ public:
     bool isWalking;
     ofCharacter* convoPartner;
     
+    int hasDiscovered;
     vector<string> interests;
+    
     void setInterests( string );
+    vector<string> introduction;
+    void setIntro( ofTrueTypeFont&, string );
     
     // Constructor
     ofCharacter(    string name,
-                    string introduction,
                     int charIndex,
                     string imagePath,
                     string basePath = "",

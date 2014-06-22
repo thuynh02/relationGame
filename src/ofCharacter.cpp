@@ -10,8 +10,8 @@
 #define WALKTIME 10
 
 // Default Constructor - Used to create a character
-ofCharacter::ofCharacter( string name, string introduction, int charIndex, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
-    : name(name), introduction( introduction), charIndex(charIndex), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true ), inConvo(false), convoPartner(NULL)
+ofCharacter::ofCharacter( string name, int charIndex, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
+    : name(name), charIndex(charIndex), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true ), inConvo(false), convoPartner(NULL)
 {
     charImage.loadImage( bodyPath );
     baseImage.loadImage( basePath );
@@ -36,6 +36,21 @@ ofCharacter::ofCharacter( string name, string introduction, int charIndex, strin
                             range * (MAPHEIGHT) / 4 );
     startTime = ofGetElapsedTimeMillis();
 
+    introduction.push_back("");
+    
+}
+
+void ofCharacter::setIntro( ofTrueTypeFont& myFont, string intro ){
+
+    for( int i = 0; i < intro.size(); i++ ){
+        if ( myFont.stringWidth( introduction[ introduction.size() - 1 ] ) < (ofGetWidth() / 15) * 13 ) {
+            introduction[ introduction.size() - 1 ] += intro[i];
+        }
+        else if ( myFont.stringWidth( introduction[  introduction.size() - 1 ] ) >= (ofGetWidth() / 15) * 13 ) {
+            introduction.push_back( "" );
+            introduction[ introduction.size() - 1 ] += intro[i];
+        }
+    }
 }
 
 ofCharacter::~ofCharacter(){};
@@ -143,7 +158,8 @@ void ofCharacter::endConvo( ){
 void ofCharacter::startConvo( ofCharacter* other ){
     inConvo = true;
     isWalking = false;
-convoPartner = other;
+    convoPartner = other;
+    if ( hasDiscovered < interests.size() ) {hasDiscovered++;}
 }
 
 void ofCharacter::setInterests( string s  ){
