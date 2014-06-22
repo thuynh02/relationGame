@@ -66,6 +66,7 @@ void ofApp::update(){
     }
     
     // Reorder
+    yPoses.clear();
     for( int i = 0; i < numOfCharacters; i++ ) {
         yPoses.push_back( characters[i]->y );
     }
