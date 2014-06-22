@@ -10,7 +10,9 @@
 
 #define MINIGAMETIME 1
 #define INSTRUCTLENGTH 7
-#define NUMBEROFCHARACTERS 50
+#define NUMBEROFCHARACTERS 28
+#define MAPWIDTH 64
+#define MAPHEIGHT 96
 
 #define NUMTOPS 6
 #define NUMBOTTOMS 3
@@ -51,6 +53,8 @@ private:
     // Private Member Variables
     ofImage logo;
     ofImage screenBG;
+    
+    ofImage convoGrad;
     
     ofCharacter* player;
     

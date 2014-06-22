@@ -21,7 +21,7 @@ ofCharacter::ofCharacter( string name, string introduction, int charIndex, strin
     topsImage.loadImage( topsPath );
     bottomsImage.loadImage( bottomsPath );
     
-    genColor( charColor );
+    genColor( charColor, 139, 90, 153, 255, 222, 173 );
     genColor( eyesColor );
     genColor( hairColor );
     genColor( shoesColor );
@@ -40,10 +40,10 @@ ofCharacter::ofCharacter( string name, string introduction, int charIndex, strin
 
 ofCharacter::~ofCharacter(){};
 
-void ofCharacter::genColor( ofColor& var ){
-    var.r = static_cast<int>( ofRandom( 0, 255 ) );
-    var.g = static_cast<int>( ofRandom( 0, 255 ) );
-    var.b = static_cast<int>( ofRandom( 0, 255 ) );
+void ofCharacter::genColor( ofColor& var, int rL, int gL, int bL, int rU, int gU, int bU ){
+    var.r = static_cast<int>( ofRandom( rL, rU ) );
+    var.g = static_cast<int>( ofRandom( gL, gU ) );
+    var.b = static_cast<int>( ofRandom( bL, bU ) );
 }
 
 // Update Method - Used to refresh character's properties
@@ -146,6 +146,9 @@ void ofCharacter::startConvo( ofCharacter* other ){
 convoPartner = other;
 }
 
+void ofCharacter::setInterests( string s  ){
+    interests.push_back( s );
+}
 
 bool ofCharacter::timeToTransition(){
     if( ofGetElapsedTimeMillis() - targetTime > 130-(10*(speedX+speedY)) ){
@@ -182,7 +185,7 @@ void ofCharacter::animateWalkBackward(){
     }
 }
 
-// Update Method - Used to refresh character's properties
+// Draw Method - Used to refresh character's properties
 void ofCharacter::draw(){
     ofSetColor( 120, 120, 120, 100 );
     ofEllipse( x + MAPWIDTH/2,
@@ -192,33 +195,51 @@ void ofCharacter::draw(){
     
     ofSetColor( charColor );
     charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    charImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( 255, 255, 255 );
     baseImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    baseImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( eyesColor );
     eyesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    eyesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( shoesColor );
     shoesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    shoesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( bottomsColor );
     bottomsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    bottomsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
-    
+
     ofSetColor( topsColor );
     topsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    topsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( hairColor );
     hairImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-//    hairImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( 255, 255, 255, 100 );
     ofRect(footRect.x, footRect.y, footRect.width, footRect.height );
+    
+}
+
+void ofCharacter::drawProfile( float xPos, float yPos){
+    
+    ofSetColor( charColor );
+    charImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( 255, 255, 255 );
+    baseImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( eyesColor );
+    eyesImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( shoesColor );
+    shoesImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( bottomsColor );
+    bottomsImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( topsColor );
+    topsImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( hairColor );
+    hairImage.drawSubsection( xPos, yPos, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
     
 }
