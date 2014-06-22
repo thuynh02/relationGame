@@ -344,6 +344,7 @@ void ofApp::keyPressed(int key){
                         if( !characters[i]->inConvo ){
                             player->startConvo( characters[i]);
                             characters[i]->startConvo(player);
+                            startTime = ofGetElapsedTimeMillis();
                         }
                     }
                 }
@@ -450,12 +451,12 @@ void ofApp::keyReleased(int key){
             player->dirX = 0;
             player->currentPos = 8;
         }
-        if (key == ' ' ) {
-            if ( player->inConvo ){
-                startTime = ofGetElapsedTimeMillis();
-            }
-            
-        }
+//        if (key == ' ' ) {
+//            if ( player->inConvo ){
+//                startTime = ofGetElapsedTimeMillis();
+//            }
+//            
+//        }
 
     }
     
