@@ -13,9 +13,9 @@
 #define NUMBEROFCHARACTERS 10
 
 #define NUMTOPS 6
-#define NUMBOTTOMS 1
+#define NUMBOTTOMS 3
 #define NUMEYES 1
-#define NUMHAIR 5
+#define NUMHAIR 8
 #define NUMSHOES 1
 
 class ofApp : public ofBaseApp{
@@ -64,7 +64,7 @@ private:
     
     float marginTop, lineSpacing;
 
-    string getRandNum( std::ostringstream&, int );
+    string getNumToStr( std::ostringstream&, int );
     
     bool nameFieldActive, introFieldActive;
     string nameInput, introInput;
@@ -72,6 +72,8 @@ private:
     ofRectangle introField;
     
     vector<string> instructions;
+    vector<string> introduction;
+    vector<float> yPoses;
 
 };
 

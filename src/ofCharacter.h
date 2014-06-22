@@ -45,7 +45,6 @@ public:
     ofRectangle footRect;
     ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
 
-    
     string name, introduction;
     bool operator<( ofCharacter& rhs);
     

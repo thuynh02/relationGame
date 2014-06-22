@@ -42,7 +42,9 @@ void ofApp::setup(){
     instructions.push_back( "- Too many mistakes will drive a potential friend away! ");
     instructions.push_back( "" );
     instructions.push_back( "Good luck! How will you say hello? Keep it short and sweet." );
+    instructions.push_back( "" );
     
+    introduction.push_back( "" );
     
     // Set-Up of Party Mode
     numOfCharacters = NUMBEROFCHARACTERS;
@@ -64,7 +66,12 @@ void ofApp::update(){
     }
     
     // Reorder
-//    ofSort(characters, my_compare);
+    for( int i = 0; i < numOfCharacters; i++ ) {
+        yPoses.push_back( characters[i]->y );
+    }
+    
+    ofSort( yPoses );
+    
     if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
         previousScreen = currentScreen;
         currentScreen = ENDING;
@@ -94,7 +101,7 @@ void ofApp::draw(){
         ofSetColor( 120, 120, 120 );
         myText.draw( 500, ofGetHeight() );
         
-        myFont.loadFont("fonts/verdana.ttf", 32 );
+        myFont.loadFont("fonts/verdana.ttf", 30 );
         myFont.drawString("NAME: ", ofGetWidth()/15, ofGetHeight()/10);
         myFont.drawString("INSTRUCTIONS: ", ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight() );
         
@@ -104,16 +111,25 @@ void ofApp::draw(){
             myFont.drawString( instructions[i], ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight()*(i+3) );
         }
         
-        myFont.loadFont("fonts/verdana.ttf", 32 );
+        myFont.loadFont("fonts/verdana.ttf", 30 );
+        
         myFont.drawString(nameInput, ofGetWidth()/15 + myFont.stringWidth("NAME: ") * 1.25, ofGetHeight()/10);
-        myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10) + myFont.getLineHeight()*(instructions.size()-3) );
+        
+        myFont.drawString( "HOW WILL YOU INTRODUCE YOURSELF?", (ofGetWidth()/15), ( ofGetHeight()/10 ) + myFont.getLineHeight()*(instructions.size() - 4));
+        for (int i = 0; i < introduction.size(); i++ ) {
+            myFont.drawString( introduction[i], (ofGetWidth()/15)*2, ( ofGetHeight()/10 ) + myFont.getLineHeight()*(instructions.size() - 4) + myFont.getLineHeight()*(i+1) );
+        }
+        
+        // myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10) + myFont.getLineHeight()*(instructions.size()-3) );
     }
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
         modeParty->draw();
         
-        for ( int i = 0; i < numOfCharacters; i++ ) {
-            characters[i]->draw();
+        for (int i = 0; i < yPoses.size(); i++ ){
+            for ( int j = 0; j < numOfCharacters; j++ ) {
+                if( characters[j]->y == yPoses[i] ){ characters[j]->draw(); }
+            }
         }
         
         player->draw();
@@ -153,7 +169,7 @@ void ofApp::keyPressed(int key){
     }
     else if( currentScreen == INSTRUCTIONS ){
         
-        if( nameInput != "" && introInput != "" && key == OF_KEY_RETURN ){
+        if( nameInput != "" && introduction[0] != "" && key == OF_KEY_RETURN ){
             previousScreen = INSTRUCTIONS;
             currentScreen = PARTY;
             player->name = nameInput;
@@ -166,8 +182,24 @@ void ofApp::keyPressed(int key){
         }
         else if( !nameFieldActive && introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
-            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { introInput = introInput.substr(0, introInput.size() - 1); }
-            else if ( introInput.size() < 26 ) { introInput += key; }
+            else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) {
+                if( introduction[ introduction.size() - 1 ] != "" ) {
+                    introduction[ introduction.size() - 1 ] = introduction[ introduction.size() - 1 ].substr(0, introduction[ introduction.size() - 1 ].size() - 1);
+                }
+                else{
+                    introduction.pop_back();
+                    introduction[ introduction.size() - 1 ] = introduction[ introduction.size() - 1 ].substr(0, introduction[ introduction.size() - 1 ].size() - 1);
+                }
+            }
+            else if ( myFont.stringWidth( introduction[ introduction.size() - 1 ] ) < (ofGetWidth() / 15) * 11 ) {
+                introduction[ introduction.size() - 1 ] += key;
+            }
+            else if ( myFont.stringWidth( introduction[ introduction.size() - 1 ] ) >= (ofGetWidth() / 15) * 11 ) {
+                if( introduction.size() < 3 ) {
+                    introduction.push_back( "" );
+                    introduction[ introduction.size() - 1 ] += key;
+                }
+            }
         }
     }
     else if( currentScreen == PARTY ) {
@@ -324,11 +356,11 @@ void ofApp::reset( std::ostringstream& oss ){
                              "",
                              "characters/blankBody.png",
                              "characters/eyes/base.png",
-                             "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
-                             "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
-                             "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
-                             "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
-                             "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
+                             "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
+                             "characters/shoes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMSHOES) ) ) + ".png",
+                             "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
+                             "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
+                             "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
                              100, 100, 1.5, 1.5);
     
     modeParty = new ofMinigame(
@@ -346,11 +378,11 @@ void ofApp::reset( std::ostringstream& oss ){
                               "", "",
                               "characters/blankBody.png",
                               "characters/eyes/base.png",
-                              "characters/eyes/" + getRandNum( oss, NUMEYES ) + ".png",
-                              "characters/shoes/" + getRandNum( oss, NUMSHOES ) + ".png",
-                              "characters/bottoms/" + getRandNum( oss, NUMBOTTOMS ) + ".png",
-                              "characters/tops/" + getRandNum( oss, NUMTOPS ) + ".png",
-                              "characters/hair/" + getRandNum( oss, NUMHAIR ) + ".png",
+                              "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
+                              "characters/shoes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMSHOES) ) ) + ".png",
+                              "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
+                              "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
+                              "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
                               ofRandom( modeParty->x, modeParty->width ),
                               ofRandom(   modeParty->y + ( modeParty->height * i ) / + numOfCharacters,
                                        modeParty->y + ( modeParty->height * (i + 1) ) / + numOfCharacters
@@ -362,9 +394,9 @@ void ofApp::reset( std::ostringstream& oss ){
 
 }
 
-string ofApp::getRandNum( std::ostringstream& oss, int value ) {
+string ofApp::getNumToStr( std::ostringstream& oss, int value ) {
     oss.str("");
-    oss << static_cast<int>( ofRandom(1, value) );
+    oss << static_cast<int>( value );
     return oss.str();
 }
 //--------------------------------------------------------------

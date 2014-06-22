@@ -148,7 +148,7 @@ void ofCharacter::animateWalkBackward(){
 
 // Update Method - Used to refresh character's properties
 void ofCharacter::draw(){
-    ofSetColor( 120, 120, 120 );
+    ofSetColor( 120, 120, 120, 100 );
     ofEllipse( x + MAPWIDTH/2,
               y + MAPHEIGHT,
               range * (MAPHEIGHT) / 2,
