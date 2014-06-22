@@ -65,6 +65,10 @@
 
 /* Begin PBXFileReference section */
 		4D5C401C19562E8E009A1CFE /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = level1.txt; path = bin/data/levels/level1.txt; sourceTree = SOURCE_ROOT; };
+		4D5C402319565E00009A1CFE /* goodMini.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = goodMini.txt; path = bin/data/general/goodMini.txt; sourceTree = SOURCE_ROOT; };
+		4D5C402419565E55009A1CFE /* midMini.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = midMini.txt; path = bin/data/general/midMini.txt; sourceTree = SOURCE_ROOT; };
+		4D5C402519565E73009A1CFE /* badMini.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = badMini.txt; path = bin/data/general/badMini.txt; sourceTree = SOURCE_ROOT; };
+		4D5C4026195660A9009A1CFE /* dialogue.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dialogue.txt; path = bin/data/general/dialogue.txt; sourceTree = SOURCE_ROOT; };
 		4DBC71DE195605AD0069FB47 /* ofCheckpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofCheckpoint.h; sourceTree = "<group>"; };
 		4DBC71DF19560CA30069FB47 /* ofLevelCheckpoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofLevelCheckpoints.h; sourceTree = "<group>"; };
 		4DBC71E019560CFF0069FB47 /* ofCheckpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofCheckpoint.cpp; sourceTree = "<group>"; };
@@ -204,6 +208,10 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				4D5C4026195660A9009A1CFE /* dialogue.txt */,
+				4D5C402319565E00009A1CFE /* goodMini.txt */,
+				4D5C402419565E55009A1CFE /* midMini.txt */,
+				4D5C402519565E73009A1CFE /* badMini.txt */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
