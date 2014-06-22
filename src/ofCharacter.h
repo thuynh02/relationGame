@@ -42,8 +42,10 @@ public:
     
     float range;
     int footSpace;
-    ofImage charImage;
+    ofRectangle footRect;
+    ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
 
+    bool operator<( ofCharacter& rhs);
     
     // Constructor
     ofCharacter(    string imagePath,

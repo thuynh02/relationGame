@@ -12,10 +12,10 @@
 #define INSTRUCTLENGTH 7
 #define NUMBEROFCHARACTERS 10
 
-#define NUMTOPS 1
+#define NUMTOPS 6
 #define NUMBOTTOMS 1
 #define NUMEYES 1
-#define NUMHAIR 1
+#define NUMHAIR 5
 #define NUMSHOES 1
 
 class ofApp : public ofBaseApp{
@@ -24,6 +24,7 @@ public:
     // Public Methods
     void setup();
     void update();
+    void reset(std::ostringstream&);
     void resetFont();
     void draw();
     void quickSort( ofCharacter*[], int, int);
@@ -50,8 +51,7 @@ private:
     ofCharacter* player;
     
     int numOfCharacters;
-    ofCharacter** characters; // Array of Characters
-    
+    vector<ofCharacter*> characters; // Array of Characters
     ofMinigame* modeParty;
     
     char timerString[255];
@@ -63,13 +63,13 @@ private:
     TextBlockAlignment  alignment;
     
     float marginTop, lineSpacing;
-    string instructions[ INSTRUCTLENGTH ] = {
-        "NAME: ",
-        "INSTRUCTIONS: ",
-        "HOW DO YOU WANT TO INTRODUCE YOURSELF?"
-    };
-    
+
     string getRandNum( std::ostringstream&, int );
+    
+    bool nameFieldActive, introFieldActive;
+    string nameInput, introInput;
+    ofRectangle nameField;
+    ofRectangle introField;
 
 };
 

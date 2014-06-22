@@ -13,14 +13,23 @@ ofCharacter::ofCharacter( string bodyPath, string basePath, string eyesPath, str
     : x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
     charImage.loadImage( bodyPath );
+    baseImage.loadImage( basePath );
+    eyesImage.loadImage( eyesPath );
+    hairImage.loadImage( hairPath );
+    shoesImage.loadImage( shoesPath );
+    topsImage.loadImage( topsPath );
+    bottomsImage.loadImage( bottomsPath );
     footSpace =charImage.getHeight() / 5;
+    footRect = ofRectangle(x, y + MAPHEIGHT - footSpace, MAPWIDTH, footSpace );
     
     startTime = ofGetElapsedTimeMillis();
 
 }
 
+ofCharacter::~ofCharacter(){};
 
 
+bool ofCharacter::operator<(ofCharacter& rhs) { return y < (&rhs)->y;}
 
 
 // Update Method - Used to refresh character's properties
@@ -43,8 +52,8 @@ void ofCharacter::update( bool player){
             if( x < 0 ){
                 x = 0;
                 speedX *= ofRandom(-1.5, -0.5);
-            } else if( x + MAPWIDTH > ofGetWidth() ){
-                x = ofGetWidth() - MAPWIDTH;
+            } else if( x + MAPWIDTH > (ofGetWidth() / 4) * 3 ){
+                x = (ofGetWidth() / 4) * 3 - MAPWIDTH;
                 speedX *= ofRandom(-1.5, -0.5);
             }
             
@@ -52,7 +61,7 @@ void ofCharacter::update( bool player){
                 y = 0;
                 speedY *= ofRandom(-1.5, -0.5);
             } else if( y + MAPHEIGHT > ofGetHeight() ){
-                y = ofGetHeight() - MAPHEIGHT;
+                y =  ofGetHeight() - MAPHEIGHT;
                 speedY *= ofRandom(-1.5, -0.5);
             }
             
@@ -66,6 +75,9 @@ void ofCharacter::update( bool player){
             if( speedY > 0 ) { dirY = 1; }
             else if( speedY == 0 ) { dirY = 0; }
             else if( speedY < 0 ) { dirY = -1; }
+        }
+        else {
+            
         }
     }
 
@@ -85,7 +97,16 @@ void ofCharacter::update( bool player){
     else if( dirY == 1 ){
         animateWalkForward();
     }
+    
+    
+    footRect.setPosition(x, y + MAPHEIGHT - footSpace );
+    
 }
+
+
+
+
+
 bool ofCharacter::timeToTransition(){
     if( ofGetElapsedTimeMillis() - startTime > 100 ){
         startTime = ofGetElapsedTimeMillis();
@@ -121,30 +142,6 @@ void ofCharacter::animateWalkBackward(){
     }
 }
 
-//Light blue: R43, G141, B148
-//
-//Light green:
-//R90, G113, B60
-//
-//Blue-Purple:
-//R: 133, G117, B:196
-//
-//purple:
-//r196, g117, b172
-//
-//red:
-//r122, g41, b51
-//
-//yellow:
-//r248, g237, b60
-//
-//
-//skin 1:
-//r196, g151, b117
-//
-//skin 2:
-//r97, g61, b 41
-
 // Update Method - Used to refresh character's properties
 void ofCharacter::draw(){
     ofSetColor( 120, 120, 120 );
@@ -155,7 +152,14 @@ void ofCharacter::draw(){
     
     ofSetColor( 197, 151, 117);
     charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    baseImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    eyesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    shoesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    bottomsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    topsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    hairImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
     
     ofSetColor( 255, 255, 255, 100 );
-    ofRect( x, y + MAPHEIGHT - footSpace, MAPWIDTH, footSpace );
+    ofRect(footRect.x, footRect.y, footRect.width, footRect.height );
+    
 }
