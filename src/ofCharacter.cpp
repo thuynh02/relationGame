@@ -37,7 +37,6 @@ ofCharacter::ofCharacter( string name, string introduction, int charIndex, strin
 
 ofCharacter::~ofCharacter(){};
 
-
 void ofCharacter::genColor( ofColor& var ){
     var.r = static_cast<int>( ofRandom( 0, 255 ) );
     var.g = static_cast<int>( ofRandom( 0, 255 ) );
@@ -50,14 +49,13 @@ void ofCharacter::update( bool player){
     
     if ( player ){
         if( x < 0 ){ x = 0 ;}
-        else if (x + MAPWIDTH > (ofGetWidth() / 4) * 3 ) { x = (ofGetWidth() / 4) * 3 - MAPWIDTH; }
+        else if (x + MAPWIDTH > ofGetWidth() ) { x = ofGetWidth()- MAPWIDTH; }
         if( y < 0 ){ y = 0 ;}
         else if (y + MAPHEIGHT > ofGetHeight() ) { y = ofGetHeight() - MAPHEIGHT; }
         x += dirX * speedX;
         y += dirY * speedY;
     }
     else{
-        
         
         if( isWalking ) {
             
@@ -70,8 +68,8 @@ void ofCharacter::update( bool player){
             if( x < 0 ){
                 x = 0;
                 speedX *= ofRandom(-1.5, -0.5);
-            } else if( x + MAPWIDTH > (ofGetWidth() / 4) * 3 ){
-                x = (ofGetWidth() / 4) * 3 - MAPWIDTH;
+            } else if( x + MAPWIDTH > ofGetWidth() ){
+                x = ofGetWidth() - MAPWIDTH;
                 speedX *= ofRandom(-1.5, -0.5);
             }
             
@@ -181,31 +179,31 @@ void ofCharacter::draw(){
     
     ofSetColor( charColor );
     charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    charImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    charImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( 255, 255, 255 );
     baseImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    baseImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    baseImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( eyesColor );
     eyesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    eyesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    eyesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( shoesColor );
     shoesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    shoesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    shoesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( bottomsColor );
     bottomsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    bottomsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    bottomsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( topsColor );
     topsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    topsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    topsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( hairColor );
     hairImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
-    hairImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
+//    hairImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( 255, 255, 255, 100 );
     ofRect(footRect.x, footRect.y, footRect.width, footRect.height );

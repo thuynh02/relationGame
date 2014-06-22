@@ -39,7 +39,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, PAUSE, ENDING };
+    enum ScreenType { START, INSTRUCTIONS, PARTY, MINIGAME, MENU, ENDING };
     enum DialogueType { GOOD_MINI, MID_MINI, BAD_MINI, NAMES };
     
 private:

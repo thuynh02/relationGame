@@ -8,13 +8,22 @@
 
 #include "ofMinigame.h"
 
+
+
+
+
+
 // Default Constructor - Used to create a minigame
-ofMinigame::ofMinigame( string gameType, float x, float y, int targetMinutes ) :x(x), y(y), width( (ofGetWidth()/4) * 3 ), height( ofGetHeight() ), isActive( true ), minutes( targetMinutes ), seconds( 0 )
+ofMinigame::ofMinigame( string gameType, float x, float y, int targetMinutes ) :x(x), y(y), width( ofGetWidth() ), height( ofGetHeight() ), isActive( true ), minutes( targetMinutes ), seconds( 0 )
 {
     startTime = ofGetElapsedTimeMillis();
     targetTime = targetMinutes * 60000; // 1 minute = 60000 milliseconds
     timeLeftInMilliseconds = targetTime;
 }
+
+
+
+
 
 ofMinigame::ofMinigame( string gameType, float x, float y, string imagePath, int targetMinutes )
     : x(x), y(y), isActive( true ), minutes( targetMinutes ), seconds( 0 )
@@ -27,7 +36,15 @@ ofMinigame::ofMinigame( string gameType, float x, float y, string imagePath, int
     timeLeftInMilliseconds = targetTime;
 }
 
+
+
+
+
 ofMinigame::~ofMinigame(){}
+
+
+
+
 
 // Update Method - Used to refresh minigame's properties
 void ofMinigame::update(){
@@ -55,11 +72,10 @@ void ofMinigame::update(){
 // Draw Method - Used to draw the minigame
 void ofMinigame::draw(){
     if( isActive ){
-        ofSetColor( 0, 0, 0 );
-        ofRect( x, y, width, height );
-        // screenImage.draw(x, y, ofGetWidth(), ofGetHeight());
+        screenImage.draw(x, y, ofGetWidth(), ofGetHeight());
     }
 }
+
 
 
 
@@ -67,9 +83,13 @@ void ofMinigame::draw(){
 void ofMinigame::resetSize( float x, float y ){
     this->x = x;
     this->y = y;
-    this->width = (ofGetWidth()/4) * 3;
+    this->width = ofGetWidth();
     this->height = ofGetHeight();
 };
+
+
+
+
 
 void ofMinigame::loadLevel(int level){
     std::ostringstream oss;
@@ -78,6 +98,8 @@ void ofMinigame::loadLevel(int level){
     pointImage.loadImage("../../../data/general/checkpoint.png" );
     checkpoints = new ofLevelCheckpoints( level, "../../../data/levels/level" + oss.str() + ".txt" );
 }
+
+
 
 
 void ofMinigame::drawLevel(){

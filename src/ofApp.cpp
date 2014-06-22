@@ -13,19 +13,14 @@ void ofApp::setup(){
     
     // Loading Fonts
     resetFont();
-    myText.init("fonts/verdana.ttf", 80);
     
     nameInput = "";
     
-    //Initially wrap the text to the screen width
-    myText.wrapTextX( 0 );
-    myText.wrapTextArea( (ofGetWidth()/3)*2, ofGetHeight()/2 );
-    
     // Loading Logo
-    logo.loadImage( "gameLogo.jpg" );
+    // logo.loadImage( "gameLogo.jpg" );
     
     // Loading Screen
-    screenBG.loadImage( "screens/startScreen.jpg" );
+    screenBG.loadImage( "screens/logoandstart.png" );
     
     // Set-Up of Screens
     currentScreen = START;
@@ -91,30 +86,32 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    modeParty->update();
+    if( currentScreen == MENU || currentScreen == PARTY || currentScreen == MINIGAME ){
     
-    for ( int i = 0; i < numOfCharacters; i++ ) { 
-        characters[i]->update( false );
+        modeParty->update();
+        
+        for ( int i = 0; i < numOfCharacters; i++ ) { 
+            characters[i]->update( false );
+        }
+        
+        
+        player->update( true );
+        
+        // Reorder
+        yPoses.clear();
+        for( int i = 0; i < numOfCharacters; i++ ) {
+            yPoses.push_back( characters[i]->y );
+        }
+        yPoses.push_back( player-> y );
+        
+        ofSort( yPoses );
+        
+        if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
+            previousScreen = currentScreen;
+            currentScreen = ENDING;
+            if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endbackground.png"); }
+        }
     }
-    
-    
-    player->update( true );
-    
-    // Reorder
-    yPoses.clear();
-    for( int i = 0; i < numOfCharacters; i++ ) {
-        yPoses.push_back( characters[i]->y );
-    }
-    yPoses.push_back( player-> y );
-    
-    ofSort( yPoses );
-    
-    if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
-        previousScreen = currentScreen;
-        currentScreen = ENDING;
-        if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endScreen.jpg"); }
-    }
-    
 }
 
 //--------------------------------------------------------------
@@ -126,13 +123,13 @@ void ofApp::draw(){
     
     // Currently In Start Screen - Displays only Logo and Prompt
     if( currentScreen == START ){
-        ofSetColor( 255, 255, 255 );
-        logo.draw( ofGetWidth()/2 - logo.getWidth()/2, ofGetHeight()/2 - logo.getHeight()/2, logo.getWidth(), logo.getHeight() );
+//        ofSetColor( 255, 255, 255 );
+//        logo.draw( ofGetWidth()/2 - logo.getWidth()/2, ofGetHeight()/2 - logo.getHeight()/2, logo.getWidth(), logo.getHeight() );
     }
     
     // Currently in Instruction Screen
     else if( currentScreen == INSTRUCTIONS ){
-        ofSetColor( 120, 120, 120 );
+        ofSetColor( 0, 0, 0 );
         myText.draw( 500, ofGetHeight() );
         
         myFont.loadFont("fonts/verdana.ttf", 30 );
@@ -154,7 +151,6 @@ void ofApp::draw(){
             myFont.drawString( introduction[i], (ofGetWidth()/15)*2, ( ofGetHeight()/10 ) + myFont.getLineHeight()*(instructions.size() - 4) + myFont.getLineHeight()*(i+1) );
         }
         
-        // myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10) + myFont.getLineHeight()*(instructions.size()-3) );
     }
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
@@ -197,14 +193,8 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     
-    // Conditional Statement for Toggling Fullscreen
-//    if ( key == OF_KEY_F1 ) {
-//        ofToggleFullscreen();
-//        myText.wrapTextArea( (ofGetWidth()/3)*2, ofGetHeight()/2 );
-//    }
-    
     // Conditional Statements for Altering Screen
-    if( currentScreen == START && key == OF_KEY_TAB ){
+    if( currentScreen == START && key == OF_KEY_RETURN ){
         previousScreen = START;
         currentScreen = INSTRUCTIONS;
     }
@@ -217,12 +207,12 @@ void ofApp::keyPressed(int key){
             for( int i = 0; i < introduction.size(); i++ ){ player->introduction += introduction[i]; }
         }
         else if( nameFieldActive && !introFieldActive ){
-            if( key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
+            if( key == OF_KEY_RETURN || key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
             else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { nameInput = nameInput.substr(0, nameInput.size() - 1); }
             else if ( nameInput.size() < 15 ) { nameInput += key; }
         }
         else if( !nameFieldActive && introFieldActive ){
-            if( key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
+            if( key == OF_KEY_RETURN || key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
             else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) {
                 if( introduction[ introduction.size() - 1 ] != "" ) {
                     introduction[ introduction.size() - 1 ] = introduction[ introduction.size() - 1 ].substr(0, introduction[ introduction.size() - 1 ].size() - 1);
@@ -250,7 +240,7 @@ void ofApp::keyPressed(int key){
         
         // Change currentScreen, based on key, to MINIGAME, PAUSE, ENDING
         if( key == ' ' ){ currentScreen = MINIGAME; }
-        else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
+        else if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
         else if ( key == OF_KEY_BACKSPACE ) { currentScreen = ENDING; }
         
         if( key == 'w' ){
@@ -286,11 +276,11 @@ void ofApp::keyPressed(int key){
         
         // Change currentScreen, based on key, to PARTY, PAUSE, ENDING
         if( key == ' ' ) { currentScreen = PARTY; }
-        else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
+        else if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
         else if ( key == OF_KEY_BACKSPACE ) { currentScreen = ENDING; }
         
     }
-    else if( currentScreen == PAUSE ) {
+    else if( currentScreen == MENU ) {
         
         // Change currentScreen, based on key, to value of previousScreen
         // previousScreen's Possible Values: PARTY, MINIGAME, ENDING
@@ -314,17 +304,17 @@ void ofApp::keyPressed(int key){
                 it = characters.erase(it);
             }
         }
-        else if( key == OF_KEY_SHIFT ) { currentScreen = PAUSE; }
+        else if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
         
     }
     
     // Conditional Statements for Altering Screen
-    if( currentScreen == START ){ screenBG.loadImage( "screens/startScreen.jpg"); }
-    else if( currentScreen == INSTRUCTIONS ){ screenBG.loadImage( "screens/instructScreen.jpg"); }
-    else if( currentScreen == PARTY ) { screenBG.loadImage( "screens/partyScreen.jpg"); }
-    else if( currentScreen == MINIGAME ) { screenBG.loadImage( "screens/minigameScreen.jpg"); }
-    else if( currentScreen == PAUSE ) { screenBG.loadImage( "screens/pauseScreen.jpg"); }
-    else if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endScreen.jpg"); }
+    if( currentScreen == START ){ screenBG.loadImage( "screens/logoandstart.png"); }
+    else if( currentScreen == INSTRUCTIONS ){ screenBG.loadImage( "screens/nameinstructionbackground.png"); }
+    else if( currentScreen == PARTY ) { screenBG.loadImage( "screens/gamebackground.png"); }
+    else if( currentScreen == MINIGAME ) { screenBG.loadImage( "screens/minigamebackground.png"); }
+    else if( currentScreen == MENU ) { screenBG.loadImage( "screens/nameinstructionbackground.png"); }
+    else if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endbackground.png"); }
 
 }
 
@@ -415,7 +405,8 @@ void ofApp::reset( std::ostringstream& oss ){
                              "characters/bottoms/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMBOTTOMS) ) ) + ".png",
                              "characters/tops/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMTOPS) ) ) + ".png",
                              "characters/hair/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMHAIR) ) ) + ".png",
-                             100, 100, 1.5, 1.5);
+                             100, 100, 1.5, 1.5
+                             );
     
     modeParty = new ofMinigame(
                                "PARTY",
