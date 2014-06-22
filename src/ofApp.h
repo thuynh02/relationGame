@@ -10,7 +10,7 @@
 
 #define MINIGAMETIME 1
 #define INSTRUCTLENGTH 7
-#define NUMBEROFCHARACTERS 20
+#define NUMBEROFCHARACTERS 50
 
 #define NUMTOPS 6
 #define NUMBOTTOMS 3
@@ -45,6 +45,9 @@ public:
 private:
     ScreenType currentScreen, previousScreen;
     
+    vector< vector<string> > textData;
+    vector<string> goodMini, midMini, badMini, names, places, likes, shows, groups, interests, pastAction, intros;
+    
     // Private Member Variables
     ofImage logo;
     ofImage screenBG;
@@ -54,8 +57,6 @@ private:
     int numOfCharacters;
     vector<ofCharacter*> characters; // Array of Characters
     ofMinigame* modeParty;
-    vector< vector<string> > textData;
-    vector<string> goodMini, midMini, badMini, names, places, likes, shows, groups, interests, pastAction, intros;
     
     ofImage checkpointSprite;
     ofImage miniCursor;

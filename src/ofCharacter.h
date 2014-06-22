@@ -49,7 +49,15 @@ public:
     ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
     ofColor charColor, eyesColor, hairColor, shoesColor, topsColor, bottomsColor;
     string name, introduction;
+    
     void genColor( ofColor& );
+    void endConvo();
+    void startConvo( ofCharacter* );
+    
+    bool inConvo;
+    bool isWalking;
+    ofCharacter* convoPartner;
+    
     // Constructor
     ofCharacter(    string name,
                     string introduction,
@@ -71,8 +79,6 @@ public:
     ~ofCharacter();
     
 private:
-    
-    bool isWalking;
     unsigned long long startTime;
     unsigned long long targetTime;
     unsigned long long timeLeftInMilliseconds;

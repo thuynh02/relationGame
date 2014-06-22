@@ -11,7 +11,7 @@
 
 // Default Constructor - Used to create a character
 ofCharacter::ofCharacter( string name, string introduction, int charIndex, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
-    : name(name), introduction( introduction), charIndex(charIndex), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
+    : name(name), introduction( introduction), charIndex(charIndex), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true ), inConvo(false), convoPartner(NULL)
 {
     charImage.loadImage( bodyPath );
     baseImage.loadImage( basePath );
@@ -34,7 +34,6 @@ ofCharacter::ofCharacter( string name, string introduction, int charIndex, strin
                             y + MAPHEIGHT,
                             range * (MAPHEIGHT) / 2,
                             range * (MAPHEIGHT) / 4 );
-    
     startTime = ofGetElapsedTimeMillis();
 
 }
@@ -61,7 +60,7 @@ void ofCharacter::update( bool player){
     }
     else{
         
-        if( isWalking ) {
+        if( isWalking && !inConvo ) {
             
             // Every PROBTIME seconds, check if it is time to alter between walking and standing
             if( ofGetElapsedTimeMillis() - startTime > WALKTIME * 1000 ){
@@ -96,7 +95,7 @@ void ofCharacter::update( bool player){
             else if( speedY == 0 ) { dirY = 0; }
             else if( speedY < 0 ) { dirY = -1; }
         }
-        else {
+        else if (!isWalking && !inConvo ){
             // Every PROBTIME seconds, check if it is time to alter between walking and standing
             if( ofGetElapsedTimeMillis() - startTime > WAITTIME * 1000 ){
                 if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
@@ -135,7 +134,17 @@ void ofCharacter::update( bool player){
 }
 
 
+void ofCharacter::endConvo( ){
+    inConvo = false;
+    isWalking = true;
+    convoPartner = NULL;
+}
 
+void ofCharacter::startConvo( ofCharacter* other ){
+    inConvo = true;
+    isWalking = false;
+convoPartner = other;
+}
 
 
 bool ofCharacter::timeToTransition(){
