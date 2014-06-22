@@ -105,11 +105,11 @@ void ofCharacter::update( bool player){
     
     if( isWalking ){
         // LEFT: X = -1, Y = 0
-        if( dirX == -1 ){
+        if( dirX == -1 && ( abs(speedX) >= abs(speedY) ) ){
             animateWalkLeft();
         }
         // RIGHT: X = 1, Y = 0
-        else if( dirX == 1 ){
+        else if( dirX == 1 && ( abs(speedX) >= abs(speedY) ) ){
             animateWalkRight();
         }
         // UP: X = 0, Y = -1
