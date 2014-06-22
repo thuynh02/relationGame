@@ -10,7 +10,7 @@
 
 #define MINIGAMETIME 1
 #define INSTRUCTLENGTH 7
-#define NUMBEROFCHARACTERS 20
+#define NUMBEROFCHARACTERS 50
 
 #define NUMTOPS 6
 #define NUMBOTTOMS 3
@@ -44,6 +44,9 @@ public:
     
 private:
     ScreenType currentScreen, previousScreen;
+    
+    vector< vector<string> > textData;
+    vector<string> goodMini, midMini, badMini, names;
     
     // Private Member Variables
     ofImage logo;

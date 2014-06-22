@@ -1,6 +1,7 @@
 #include "ofApp.h"
 #include <string>
 #include <fstream>
+#include <sstream>
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -8,19 +9,43 @@ void ofApp::setup(){
     std::ostringstream oss;
     ofEnableSmoothing();
     
+    // Fetching dialogue
+    textData.push_back( goodMini );
+    textData.push_back( midMini );
+    textData.push_back( badMini );
+    textData.push_back( names );
+    
+    std::ifstream ifs( "../../../data/general/dialogue.txt" );
+    std::string delimiter = ":";
+    size_t pos = 0;
+    std::string token;
+    
+    if( ifs ){
+        std::string line;
+        while( getline( ifs, line ) ){
+            if( (pos = line.find(delimiter)) != std::string::npos){
+                token = line.substr( 0, pos );
+                line.erase( 0, pos + delimiter.length() );
+                if ( token == "g" ){ textData[GOOD_MINI].push_back(line); }
+                else if ( token == "m" ){ textData[MID_MINI].push_back(line); }
+                else if ( token == "b" ){ textData[BAD_MINI].push_back(line); }
+                else if ( token == "n" ){ textData[NAMES].push_back(line); }
+            }
+        }
+        ifs.close();
+    }
+    
     reset( oss );
     nameFieldActive = true, introFieldActive = false;
     
     // Loading Fonts
     resetFont();
     
-    nameInput = "";
-    
     // Loading Logo
     // logo.loadImage( "gameLogo.jpg" );
     
     // Loading Screen
-    screenBG.loadImage( "screens/logoandstart.png" );
+    screenBG.loadImage( "screens/logoandstart.jpg" );
     
     // Set-Up of Screens
     currentScreen = START;
@@ -39,47 +64,11 @@ void ofApp::setup(){
     instructions.push_back( "Good luck! How will you say hello? Keep it short and sweet." );
     instructions.push_back( "" );
     
-    introduction.push_back( "" );
-    
     // Set-Up of Party Mode
     numOfCharacters = NUMBEROFCHARACTERS;
         
     // Set-Up of Minigame (First level test)
     modeParty->loadLevel(1);
-    
-    if(currentScreen == INSTRUCTIONS ) { ofShowCursor(); }
-    else { ofHideCursor();}
-    
-    // Fetching dialogue
-    
-    vector< vector<string> > textData;
-    vector<string> goodMini, midMini, badMini, names;
-    textData.push_back( goodMini );
-    textData.push_back( midMini );
-    textData.push_back( badMini );
-    textData.push_back( names );
-    
-    
-    
-    std::ifstream ifs( "../../../data/general/dialogue.txt" );
-    std::string delimiter = ":";
-    size_t pos = 0;
-    std::string token;
-    
-    if( ifs ){
-        std::string line;
-        while( getline( ifs, line ) ){
-            if( (pos = line.find(delimiter)) != std::string::npos){
-                token = line.substr( 0, pos );
-                line.erase( 0, pos + delimiter.length() );
-                     if ( token == "g" ){ textData[GOOD_MINI].push_back(line); }
-                else if ( token == "m" ){ textData[MID_MINI].push_back(line); }
-                else if ( token == "b" ){ textData[BAD_MINI].push_back(line); }
-                else if ( token == "n" ){ textData[NAMES].push_back(line); }
-            }
-        }
-        ifs.close();
-    }
 
 }
 
@@ -90,12 +79,19 @@ void ofApp::update(){
     
         modeParty->update();
         
+        player->update( true );
+        
         for ( int i = 0; i < numOfCharacters; i++ ) { 
             characters[i]->update( false );
+//            if( !player->inConvo && player->footRect.intersects( characters[i]->footRect ) ){
+//                if( !characters[i]->inConvo ){
+//                    player->inConvo = true;
+//                    player->convoPartner = characters[i];
+//                    characters[i]->inConvo = true;
+//                    characters[i]->convoPartner = player;
+//                }
+//            }
         }
-        
-        
-        player->update( true );
         
         // Reorder
         yPoses.clear();
@@ -109,7 +105,7 @@ void ofApp::update(){
         if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
             previousScreen = currentScreen;
             currentScreen = ENDING;
-            if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endbackground.png"); }
+            if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endbackground.jpg"); }
         }
     }
 }
@@ -130,7 +126,6 @@ void ofApp::draw(){
     // Currently in Instruction Screen
     else if( currentScreen == INSTRUCTIONS ){
         ofSetColor( 0, 0, 0 );
-        myText.draw( 500, ofGetHeight() );
         
         myFont.loadFont("fonts/verdana.ttf", 30 );
         myFont.drawString("NAME: ", ofGetWidth()/15, ofGetHeight()/10);
@@ -154,7 +149,7 @@ void ofApp::draw(){
     }
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
-        modeParty->draw();
+//        modeParty->draw();
         
         for (int i = 0; i < yPoses.size(); i++ ){
             if( player->y == yPoses[i] ){ player->draw(); }
@@ -165,13 +160,18 @@ void ofApp::draw(){
             }
         }
         
-        ofSetColor( 120, 120, 120 );
-        myFont.loadFont("fonts/verdana.ttf", 18 );
-        for( int i = 0; i < numOfCharacters; i++ ){
-            myFont.drawString( characters[i]->name, ( ofGetWidth() / 4) * 3 + MAPWIDTH*(characters[i]->charIndex % 2)*0.5 + MAPWIDTH, ((ofGetHeight()/numOfCharacters)*characters[i]->charIndex ) - myFont.getLineHeight()/4 );
+        if( player->inConvo ){
+            ofSetColor(255, 255, 255);
+            myFont.drawString(player->name, 0, ofGetHeight()/2 + myFont.stringHeight(player->name)/2 );
         }
         
-        ofSetColor( 120, 120, 120 );
+        for ( int i = 0; i < numOfCharacters; i++ ) {
+            if( !player->inConvo && player->footRect.intersects( characters[i]->footRect ) ){
+                myFont.drawString(characters[i]->name, ofGetWidth() - myFont.stringWidth(characters[i]->name)*1.25, ofGetHeight() - myFont.stringHeight(characters[i]->name)/2 );
+            }
+        }
+        
+        ofSetColor( 0, 0, 0 );
         
         // Draw Timer only in minutes and seconds
         sprintf(timerString, ( modeParty->seconds < 10 ) ? "%d:0%d" : "%d:%d", modeParty->minutes, modeParty->seconds);
@@ -180,7 +180,7 @@ void ofApp::draw(){
     }
     else if( currentScreen == MINIGAME ){
         
-        ofSetColor( 120, 120, 120 );
+        ofSetColor( 0, 0, 0 );
         
         // Draw Timer only in minutes and seconds
         sprintf(timerString, ( modeParty->seconds < 10 ) ? "%d:0%d" : "%d:%d", modeParty->minutes, modeParty->seconds);
@@ -194,7 +194,7 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     
     // Conditional Statements for Altering Screen
-    if( currentScreen == START && key == OF_KEY_RETURN ){
+    if( currentScreen == START ){
         previousScreen = START;
         currentScreen = INSTRUCTIONS;
     }
@@ -204,7 +204,9 @@ void ofApp::keyPressed(int key){
             previousScreen = INSTRUCTIONS;
             currentScreen = PARTY;
             player->name = nameInput;
-            for( int i = 0; i < introduction.size(); i++ ){ player->introduction += introduction[i]; }
+            for( int i = 0; i < introduction.size(); i++ ){ player->introduction += introduction[i];
+            }
+            introduction.clear();
         }
         else if( nameFieldActive && !introFieldActive ){
             if( key == OF_KEY_RETURN || key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
@@ -239,33 +241,52 @@ void ofApp::keyPressed(int key){
         previousScreen = PARTY;
         
         // Change currentScreen, based on key, to MINIGAME, PAUSE, ENDING
-        if( key == ' ' ){ currentScreen = MINIGAME; }
+        if( key == OF_KEY_RETURN ){ currentScreen = MINIGAME; }
         else if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
-        else if ( key == OF_KEY_BACKSPACE ) { currentScreen = ENDING; }
+        else if ( key == OF_KEY_BACKSPACE ) {
+            currentScreen = ENDING;
+        }
+        else if (key == ' ' ) {
+            if ( player->inConvo ){
+                player->convoPartner->endConvo();
+                player->endConvo();
+            }
+            else{
+                for ( int i = 0; i < numOfCharacters; i++ ) {
+                    if( player->footRect.intersects( characters[i]->footRect ) ){
+                        if( !characters[i]->inConvo ){
+                            player->startConvo( characters[i]);
+                            characters[i]->startConvo(player);
+                        }
+                    }
+                }
+            }
+        
+        }
         
         if( key == 'w' ){
             player->dirY = -1;
-            if( (player->currentPos >= 16 || player->currentPos < 12) && player->dirX == 0 ){
-                player->currentPos = 12;
-            }
+//            if( (player->currentPos >= 16 || player->currentPos < 12) && player->dirX == 0 ){
+//                player->currentPos = 12;
+//            }
         }
         if( key == 'a' ){
             player->dirX = -1;
-            if( player->currentPos >= 4){
-                player->currentPos = 0;
-            }
+//            if( player->currentPos >= 4){
+//                player->currentPos = 0;
+//            }
         }
         if( key == 's' ){
             player->dirY = 1;
-            if( (player->currentPos >= 8 || player->currentPos < 4) && player->dirX == 0 ){
-                player->currentPos = 4;
-            }
+//            if( (player->currentPos >= 8 || player->currentPos < 4) && player->dirX == 0 ){
+//                player->currentPos = 4;
+//            }
         }
         if( key == 'd' ){
             player->dirX = 1;
-            if( (player->currentPos >= 12 || player->currentPos < 8) ){
-                player->currentPos = 8;
-            }
+//            if( (player->currentPos >= 12 || player->currentPos < 8) ){
+//                player->currentPos = 8;
+//            }
         }
         
     }
@@ -303,18 +324,20 @@ void ofApp::keyPressed(int key){
                 delete *it;
                 it = characters.erase(it);
             }
+            std::ostringstream oss;
+            reset( oss );
         }
         else if( key == OF_KEY_SHIFT ) { currentScreen = MENU; }
         
     }
     
     // Conditional Statements for Altering Screen
-    if( currentScreen == START ){ screenBG.loadImage( "screens/logoandstart.png"); }
-    else if( currentScreen == INSTRUCTIONS ){ screenBG.loadImage( "screens/nameinstructionbackground.png"); }
-    else if( currentScreen == PARTY ) { screenBG.loadImage( "screens/gamebackground.png"); }
-    else if( currentScreen == MINIGAME ) { screenBG.loadImage( "screens/minigamebackground.png"); }
-    else if( currentScreen == MENU ) { screenBG.loadImage( "screens/nameinstructionbackground.png"); }
-    else if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endbackground.png"); }
+    if( currentScreen == START ){ screenBG.loadImage( "screens/logoandstart.jpg"); }
+    else if( currentScreen == INSTRUCTIONS ){ screenBG.loadImage( "screens/nameinstructionbackground.jpg"); }
+    else if( currentScreen == PARTY ) { screenBG.loadImage( "screens/gamebackground.jpg"); }
+    else if( currentScreen == MINIGAME ) { screenBG.loadImage( "screens/minigamebackground.jpg"); }
+    else if( currentScreen == MENU ) { screenBG.loadImage( "screens/nameinstructionbackground.jpg"); }
+    else if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endbackground.jpg"); }
 
 }
 
@@ -325,19 +348,19 @@ void ofApp::keyReleased(int key){
         
         if( key == 'w' ){
             player->dirY = 0;
-            player->currentPos = 12;
+//            player->currentPos = 12;
         }
         if( key == 'a' ){
             player->dirX = 0;
-            player->currentPos = 0;
+//            player->currentPos = 0;
         }
         if( key == 's' ){
             player->dirY = 0;
-            player->currentPos = 4;
+//            player->currentPos = 4;
         }
         if( key == 'd' ){
             player->dirX = 0;
-            player->currentPos = 8;
+//            player->currentPos = 8;
         }
         
     }
@@ -345,9 +368,7 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-    ofShowCursor();
-}
+void ofApp::mouseMoved(int x, int y ){}
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
@@ -394,6 +415,9 @@ void ofApp::resetFont(){
 
 void ofApp::reset( std::ostringstream& oss ){
     // Initialization of Objects on Heap
+    nameInput = "";
+    introduction.clear();
+    introduction.push_back( "" );
     player = new ofCharacter(
                              "",
                              "",
@@ -420,7 +444,7 @@ void ofApp::reset( std::ostringstream& oss ){
     for ( int i = 0; i < numOfCharacters; i++ ) {
         
         characters.push_back( new ofCharacter(
-                              getNumToStr( oss, i ),
+                              textData[NAMES][ static_cast<int>( ofRandom( textData[NAMES].size() ) ) ],
                               getNumToStr( oss, i*5 ),
                               i+1,
                               "characters/blankBody.png",
