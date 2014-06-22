@@ -216,14 +216,20 @@ void ofApp::draw(){
         miniCursor.draw( mouseBoundary );
         
         if( playingMini != 'e' ){
-            if( playingMini == 'S' || playingMini == 'P' || playingMini == 'F' ){
+            if( playingMini == 'S' || playingMini == 'P' ){
                 if( ofGetElapsedTimeMillis() - dialogueDuration > 300 ){
                     currentDialogue = textData[GOOD_MINI][static_cast<int>(ofRandom(textData[GOOD_MINI].size()))];
+                }
+            }
+            else if( playingMini == 'B' ){
+                if( ofGetElapsedTimeMillis() - dialogueDuration > 300 ){
+                    currentDialogue = textData[BAD_MINI][static_cast<int>(ofRandom(textData[BAD_MINI].size()))];
                 }
             }
             myFont.loadFont("fonts/verdana.ttf", 14 );
             myFont.drawString( currentDialogue, mouseBoundary.x - myFont.stringWidth(currentDialogue)/2,
                                mouseBoundary.y - 50 );
+            
         }
         else{
             modeParty->loadLevel( static_cast<int>(ofRandom(1, MAX_LEVELS+1)), &checkpointSprite );

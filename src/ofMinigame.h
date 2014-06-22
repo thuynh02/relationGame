@@ -24,6 +24,7 @@ public:
     void drawLevel();
     char playMini( ofRectangle* mouse );
     void dialogue( float x, float y, char type );
+//    bool hasHitWall( ofRectangle* mouse );
 //    void drawTimer();
     
     // Public Variables

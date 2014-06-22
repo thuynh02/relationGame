@@ -130,6 +130,9 @@ void ofMinigame::drawLevel(){
     }
 }
 
+// Pixel level detection
+//bool hasHitWall( ofRectangle* mouse ){}
+
 
 
 char ofMinigame::playMini( ofRectangle* mouse ){
@@ -149,6 +152,9 @@ char ofMinigame::playMini( ofRectangle* mouse ){
             char type = nextPoint->type;
             mazeProgress++;
         }
+//        else if( hasHitWall( mouse ) ){
+//            
+//        }
     }
     else{
         mazeProgress = 0;
