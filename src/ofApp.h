@@ -14,7 +14,7 @@
 #define MAPWIDTH 64
 #define MAPHEIGHT 96
 
-#define MAX_LEVELS 2
+#define MAX_LEVELS 5
 
 #define NUMTOPS 6
 #define NUMBOTTOMS 3
