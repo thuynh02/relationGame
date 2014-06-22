@@ -10,8 +10,8 @@
 #define WALKTIME 10
 
 // Default Constructor - Used to create a character
-ofCharacter::ofCharacter( string name, string introduction, int attraction, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
-    : name(name), introduction( introduction), attraction(attraction), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
+ofCharacter::ofCharacter( string name, string introduction, int charIndex, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
+    : name(name), introduction( introduction), charIndex(charIndex), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
     charImage.loadImage( bodyPath );
     baseImage.loadImage( basePath );
@@ -176,24 +176,31 @@ void ofCharacter::draw(){
     
     ofSetColor( charColor );
     charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    charImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( 255, 255, 255 );
     baseImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    baseImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( eyesColor );
     eyesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    eyesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( shoesColor );
     shoesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    shoesImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( bottomsColor );
     bottomsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    bottomsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( topsColor );
     topsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    topsImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( hairColor );
     hairImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    hairImage.drawSubsection( ( ofGetWidth() / 4) * 3 + MAPWIDTH*(charIndex % 2)*0.5, ((ofGetHeight()/20)*charIndex ) - 30, MAPWIDTH, 25, 0, 10);
     
     ofSetColor( 255, 255, 255, 100 );
     ofRect(footRect.x, footRect.y, footRect.width, footRect.height );

@@ -79,9 +79,8 @@ void ofApp::update(){
     if( !modeParty->isActive && ( currentScreen == PARTY || currentScreen == MINIGAME ) ) {
         previousScreen = currentScreen;
         currentScreen = ENDING;
+        if( currentScreen == ENDING ) { screenBG.loadImage( "screens/endScreen.jpg"); }
     }
-    
-    std::sort( characters.begin(), characters.end() );
     
 }
 
@@ -135,6 +134,12 @@ void ofApp::draw(){
                     if( characters[j]->y == yPoses[i] ){ characters[j]->draw(); }
                 }
             }
+        }
+        
+        ofSetColor( 120, 120, 120 );
+        myFont.loadFont("fonts/verdana.ttf", 18 );
+        for( int i = 0; i < numOfCharacters; i++ ){
+            myFont.drawString( characters[i]->name, ( ofGetWidth() / 4) * 3 + MAPWIDTH*(characters[i]->charIndex % 2)*0.5 + MAPWIDTH, ((ofGetHeight()/numOfCharacters)*characters[i]->charIndex ) - myFont.getLineHeight()/4 );
         }
         
         ofSetColor( 120, 120, 120 );
@@ -357,7 +362,7 @@ void ofApp::reset( std::ostringstream& oss ){
     player = new ofCharacter(
                              "",
                              "",
-                             static_cast<int>( ofRandom(numOfCharacters ) ),
+                             1,
                              "characters/blankBody.png",
                              "characters/eyes/base.png",
                              "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
@@ -381,7 +386,7 @@ void ofApp::reset( std::ostringstream& oss ){
         characters.push_back( new ofCharacter(
                               getNumToStr( oss, i ),
                               getNumToStr( oss, i*5 ),
-                              i,
+                              i+1,
                               "characters/blankBody.png",
                               "characters/eyes/base.png",
                               "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
