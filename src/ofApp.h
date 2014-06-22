@@ -63,7 +63,9 @@ private:
     int numOfCharacters;
     vector<ofCharacter*> characters; // Array of Characters
     ofMinigame* modeParty;
-    bool playingMini;
+    char playingMini;
+    int dialogueDuration;
+    std::string currentDialogue;
     
     ofImage checkpointSprite;
     ofImage miniCursor;

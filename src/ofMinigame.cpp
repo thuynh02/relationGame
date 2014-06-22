@@ -9,7 +9,7 @@
 #include "ofMain.h"
 #include "ofMinigame.h"
 
-
+#include "ofApp.h"
 
 
 
@@ -103,10 +103,10 @@ void ofMinigame::loadLevel(int level, ofImage* spriteReference){
     for( size_t i = 0; i < checkpoints->listOfPoints.size(); ++i ){
         checkpoints->listOfPoints[i]->referToImage(spriteReference);
         checkpoints->listOfPoints[i]->boundary =
-            new ofRectangle( levelPosX + checkpoints->listOfPoints[i]->x - pointImage.width/2,
-                             levelPosY + checkpoints->listOfPoints[i]->y - pointImage.height/2,
-                             spriteReference->width,
-                             spriteReference->height);
+            new ofRectangle( levelPosX + checkpoints->listOfPoints[i]->x - pointImage.width/6,
+                             levelPosY + checkpoints->listOfPoints[i]->y - pointImage.height/6,
+                             spriteReference->width/3,
+                             spriteReference->height/3);
     }
     mazeProgress = 0;
 }
@@ -132,28 +132,31 @@ void ofMinigame::drawLevel(){
 
 
 
-bool ofMinigame::playMini( ofRectangle* mouse ){
+char ofMinigame::playMini( ofRectangle* mouse ){
     
     ofCheckpoint* nextPoint = checkpoints->listOfPoints[mazeProgress];
-    if( nextPoint->type == 'S' ){
-        std::string startString = "Head to the green~";
-        gameFont.drawString("Head to the green~",
-                            ofGetWidth()/2 - (gameFont.getLetterSpacing()*startString.length())/2,
-                            ofGetHeight()/2 - (gameFont.getLineHeight()/2) );
-    }
-        if( mazeProgress < checkpoints->listOfPoints.size() ){
-            if( mouse->intersects( *nextPoint->boundary ) ){
-                nextPoint->active = false;
-                mazeProgress++;
-            }
-            return true;
+    char feedback;
+    if( mazeProgress < checkpoints->listOfPoints.size() ){
+        if( nextPoint->type == 'S' ){
+            std::string startString = "Start at the green!";
+            gameFont.drawString(startString,
+                                ofGetWidth()/2 - gameFont.stringWidth(startString)/2,
+                                ofGetHeight()/2 - (gameFont.getLineHeight()/2) );
         }
-    
-    mazeProgress = 0;
-    return false;
+        if( mouse->intersects( *nextPoint->boundary ) ){
+            feedback = nextPoint->type;
+            nextPoint->active = false;
+            char type = nextPoint->type;
+            mazeProgress++;
+        }
+    }
+    else{
+        mazeProgress = 0;
+        feedback = 'e';
+    }
+    return feedback;
     
 }
-
 
 
 

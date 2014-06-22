@@ -22,7 +22,8 @@ public:
     void resetSize( float, float );
     void loadLevel(int level, ofImage* spriteReference);
     void drawLevel();
-    bool playMini( ofRectangle* mouse );
+    char playMini( ofRectangle* mouse );
+    void dialogue( float x, float y, char type );
 //    void drawTimer();
     
     // Public Variables

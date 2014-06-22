@@ -89,8 +89,9 @@ void ofApp::setup(){
         
     // Set-Up of Minigame (First level test)
     miniCursor.loadImage("../../../data/general/checkpoint.png");
-    mouseBoundary.setWidth(miniCursor.width/2);
-    mouseBoundary.setHeight(miniCursor.height/2);
+    mouseBoundary.setWidth(miniCursor.width/8);
+    mouseBoundary.setHeight(miniCursor.height/8);
+    dialogueDuration = 300;
     
     checkpointSprite.loadImage( "../../../data/general/checkpoint.png");
     modeParty->loadLevel(1, &checkpointSprite );
@@ -211,11 +212,21 @@ void ofApp::draw(){
         modeParty->drawLevel();
         
         playingMini = modeParty->playMini( &mouseBoundary );
-        ofSetColor( 135, 95, 95 );
+        ofSetColor( 255,255,255 );
         miniCursor.draw( mouseBoundary );
         
-        if( !playingMini ){
-            modeParty->loadLevel( static_cast<int>(ofRandom(1, MAX_LEVELS)), &checkpointSprite );
+        if( playingMini != 'e' ){
+            if( playingMini == 'S' || playingMini == 'P' || playingMini == 'F' ){
+                if( ofGetElapsedTimeMillis() - dialogueDuration > 300 ){
+                    currentDialogue = textData[GOOD_MINI][static_cast<int>(ofRandom(textData[GOOD_MINI].size()))];
+                }
+            }
+            myFont.loadFont("fonts/verdana.ttf", 14 );
+            myFont.drawString( currentDialogue, mouseBoundary.x - myFont.stringWidth(currentDialogue)/2,
+                               mouseBoundary.y - 50 );
+        }
+        else{
+            modeParty->loadLevel( static_cast<int>(ofRandom(1, MAX_LEVELS+1)), &checkpointSprite );
             currentScreen = PARTY;
         }
     }
@@ -361,7 +372,7 @@ void ofApp::keyPressed(int key){
                         intro.insert(pos, textData[GROUPS][static_cast<int>(ofRandom(textData[GROUPS].size()))]);
                     }
                     else if ( token == "+" ){
-                        intro.insert(pos, textData[INTERESTS][static_cast<int>(ofRandom(textData[INTERESTS].size()))]);
+                        intro.insert(pos, textData[HOBBIES][static_cast<int>(ofRandom(textData[HOBBIES].size()))]);
                     }
                     else if ( token == "$" ){
                         intro.insert(pos, textData[PAST][static_cast<int>(ofRandom(textData[PAST].size()))]);
@@ -560,6 +571,7 @@ string ofApp::getNumToStr( std::ostringstream& oss, int value ) {
     return oss.str();
 }
 //--------------------------------------------------------------
+
 
 
 
