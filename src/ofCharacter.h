@@ -44,7 +44,7 @@ public:
     int footSpace;
     ofRectangle footRect;
     
-    int attraction;
+    int charIndex;
     ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
     ofColor charColor, eyesColor, hairColor, shoesColor, topsColor, bottomsColor;
     string name, introduction;
@@ -52,7 +52,7 @@ public:
     // Constructor
     ofCharacter(    string name,
                     string introduction,
-                    int attraction,
+                    int charIndex,
                     string imagePath,
                     string basePath = "",
                     string eyesPath = "",
