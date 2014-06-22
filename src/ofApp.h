@@ -68,6 +68,7 @@ private:
     
     bool nameFieldActive, introFieldActive;
     string nameInput, introInput;
+    vector<string> introduction;
     ofRectangle nameField;
     ofRectangle introField;
 
