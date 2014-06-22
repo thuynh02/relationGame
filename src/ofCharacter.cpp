@@ -37,6 +37,10 @@ bool ofCharacter::operator<(ofCharacter& rhs) { return y < (&rhs)->y;}
 void ofCharacter::update( bool player){
     
     if ( player ){
+        if( x < 0 ){ x = 0 ;}
+        else if (x + MAPWIDTH > (ofGetWidth() / 4) * 3 ) { x = (ofGetWidth() / 4) * 3 - MAPWIDTH; }
+        if( y < 0 ){ y = 0 ;}
+        else if (y + MAPHEIGHT > ofGetHeight() ) { y = ofGetHeight() - MAPHEIGHT; }
         x += dirX * speedX;
         y += dirY * speedY;
     }

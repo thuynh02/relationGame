@@ -16,8 +16,11 @@ void ofApp::setup(){
     
     nameInput = "";
     introInput = "";
-    
-    myText.setText("You came to a party hoping to meet up with some close friends of yours. Unfortunately, they all bailed on you at the last minute. You're already at the party, but it's been ages since you last tried to make some new friends. Make the most of the night and find a new person to connect with before the party ends on a lonely note. \nFind someone interesting on the guest list and walk over to them using the W, A, S, D keys. Once you get close to someone you'll have a chance to introduce yourself and start a conversation with them. Conversations are navigated with your mouse, you'll be following the flow of conversation quite literally with your pointer. Stay within the shapes given to you as best you can and be careful! When meeting someone new you need to pay attention to what they say and respect their boundaries. Too many run ins with the conversation's walls or going too fast will make people not want anything to do with you. \nGood luck, and one last thing... how do you want to say hello to the people you meet tonight?" );
+    introduction.push_back("RULE 1");
+    introduction.push_back("RULE 1");
+    introduction.push_back("RULE 1");
+    introduction.push_back("RULE 1");
+    introduction.push_back("RULE 1");
     
     //Initially wrap the text to the screen width
     myText.wrapTextX( 0 );
@@ -76,10 +79,12 @@ void ofApp::draw(){
         ofSetColor( 120, 120, 120 );
         myText.draw( 500, ofGetHeight() );
         myFont.drawString("NAME: ", ofGetWidth()/15, ofGetHeight()/10);
-        myFont.drawString("INSTRUCTIONS: ", ofGetWidth()/15, ofGetHeight()/10 + ofGetHeight()/20 + myFont.stringHeight("NAME: ") );
-        myFont.drawString(nameInput, ofGetWidth()/15 + myFont.stringWidth("NAME: ")*1.5, ofGetHeight()/10);
-        myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10)*5);
-
+        myFont.drawString("INSTRUCTIONS: ", ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight() );
+        for (int i = 0; i < introduction.size(); i++ ) {
+            myFont.drawString( introduction[i], ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight()*(i+2) );
+        }
+        myFont.drawString(nameInput, ofGetWidth()/15 + myFont.stringWidth("NAME: ") * 1.25, ofGetHeight()/10);
+        myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10) + myFont.getLineHeight()*(introduction.size()+2) );
     }
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
@@ -125,7 +130,11 @@ void ofApp::keyPressed(int key){
     }
     else if( currentScreen == INSTRUCTIONS ){
         
-        if( nameFieldActive && !introFieldActive ){
+        if( nameInput != "" && introInput != "" && key == OF_KEY_RETURN ){
+            previousScreen = INSTRUCTIONS;
+            currentScreen = PARTY;
+        }
+        else if( nameFieldActive && !introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
             else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { nameInput = nameInput.substr(0, nameInput.size() - 1); }
             else if ( nameInput.size() < 15 ) { nameInput += key; }
@@ -134,10 +143,6 @@ void ofApp::keyPressed(int key){
             if( key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
             else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { introInput = introInput.substr(0, introInput.size() - 1); }
             else if ( introInput.size() < 22 ) { introInput += key; }
-        }
-        else if( !nameFieldActive && !introFieldActive && nameInput != "" && introInput != "" ){
-            previousScreen = INSTRUCTIONS;
-            currentScreen = PARTY;
         }
     }
     else if( currentScreen == PARTY ) {
