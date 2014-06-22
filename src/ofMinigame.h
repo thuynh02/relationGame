@@ -22,6 +22,7 @@ public:
     void resetSize( float, float );
     void loadLevel(int level, ofImage* spriteReference);
     void drawLevel();
+    bool playMini( ofRectangle* mouse );
 //    void drawTimer();
     
     // Public Variables
@@ -35,6 +36,10 @@ public:
     unsigned long long startTime;
     unsigned long long targetTime;
     unsigned long long timeLeftInMilliseconds;
+    ofTrueTypeFont gameFont;
+    int mazeProgress;
+    int levelPosX;
+    int levelPosY;
     ofImage levelImage;
     ofImage pointImage;
     ofLevelCheckpoints* checkpoints;

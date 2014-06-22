@@ -283,3 +283,13 @@ i:Hi! You look nice, and like someone who *. I'm #NAME. I don't know most of the
 i:Oh, hello. I don't think we've met, my name is #NAME. Pleasure to meet you... I suppose, by chance, would you happen to be interested in +? It's... a passion of mine you could say.
 i:What? Oh. Yeah good seeing you. I was in the middle of trying to find someone to join my `, do you think you might be able to help? What? Oh my name's #NAME.
 i:Hey! It's good to see you again. I didn't get much of a chance to get to know you before at @. My name's #NAME, remember? If I remember right we talked about & the last time we met.
+^:cats
+^:puppies
+^:sculpture
+^:swimming
+^:knitting
+^:sex positivity
+^:community outreach
+^:espooooorts
+^:indie games
+^:fanfiction

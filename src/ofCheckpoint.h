@@ -22,6 +22,7 @@ public:
     int x;
     int y;
     char type;
+    bool active;
     ofImage* sprite;
     ofRectangle* boundary;
     

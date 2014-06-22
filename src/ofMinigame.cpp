@@ -13,13 +13,14 @@
 
 
 
-
 // Default Constructor - Used to create a minigame
 ofMinigame::ofMinigame( string gameType, float x, float y, int targetMinutes ) :x(x), y(y), width( ofGetWidth() ), height( ofGetHeight() ), isActive( true ), minutes( targetMinutes ), seconds( 0 )
 {
     startTime = ofGetElapsedTimeMillis();
     targetTime = targetMinutes * 60000; // 1 minute = 60000 milliseconds
     timeLeftInMilliseconds = targetTime;
+    mazeProgress = 0;
+    gameFont.loadFont("fonts/verdana.ttf", 16 );
 }
 
 
@@ -35,6 +36,8 @@ ofMinigame::ofMinigame( string gameType, float x, float y, string imagePath, int
     startTime = ofGetElapsedTimeMillis();
     targetTime = targetMinutes * 60000; // 1 minute = 60000 milliseconds
     timeLeftInMilliseconds = targetTime;
+    mazeProgress = 0;
+    gameFont.loadFont("fonts/verdana.ttf", 16 );
 }
 
 
@@ -94,30 +97,64 @@ void ofMinigame::loadLevel(int level, ofImage* spriteReference){
     levelImage.loadImage("../../../data/levels/level" + oss.str() + ".png" );
     pointImage.loadImage("../../../data/general/checkpoint.png" );
     checkpoints = new ofLevelCheckpoints( level, "../../../data/levels/level" + oss.str() + ".txt" );
+    
+    levelPosX = (ofGetWidth()/2)-(levelImage.width/2);
+    levelPosY = (ofGetHeight()/2)-(levelImage.height/2);
     for( size_t i = 0; i < checkpoints->listOfPoints.size(); ++i ){
         checkpoints->listOfPoints[i]->referToImage(spriteReference);
-        checkpoints->listOfPoints[i]->boundary = new ofRectangle(checkpoints->listOfPoints[i]->x,
-                                                                 checkpoints->listOfPoints[i]->y,
-                                                                 spriteReference->width,
-                                                                 spriteReference->height);
+        checkpoints->listOfPoints[i]->boundary =
+            new ofRectangle( levelPosX + checkpoints->listOfPoints[i]->x - pointImage.width/2,
+                             levelPosY + checkpoints->listOfPoints[i]->y - pointImage.height/2,
+                             spriteReference->width,
+                             spriteReference->height);
     }
+    mazeProgress = 0;
 }
 
 
 
 
 void ofMinigame::drawLevel(){
-    int levelPosX = (ofGetWidth()/2)-(levelImage.width/2);
-    int levelPosY = (ofGetHeight()/2)-(levelImage.height/2);
     levelImage.draw( levelPosX, levelPosY, levelImage.width, levelImage.height );
     
+    ofCheckpoint* currentPoint;
+    
     for( size_t i = 0; i < checkpoints->listOfPoints.size(); ++i ){
-        if( checkpoints->listOfPoints[i]->type == 'S' ){ ofSetColor( 90,160,90 ); }
-        checkpoints->listOfPoints[i]->sprite->draw(
-            (levelPosX + checkpoints->listOfPoints[i]->x) - pointImage.width/2,
-            (levelPosY + checkpoints->listOfPoints[i]->y) - pointImage.height/2,
-             pointImage.width, pointImage.height
-        );
+        currentPoint = checkpoints->listOfPoints[i];
+        if( currentPoint->active ){
+                 if( currentPoint->type == 'S' ){ ofSetColor( 190,255,190 ); }
+            else if( currentPoint->type == 'F' ){ ofSetColor( 255,190,190 ); }
+            else if( currentPoint->type == 'P' ){ ofSetColor( 190,190,255 ); }
+            currentPoint->sprite->draw( *currentPoint->boundary );
+        }
     }
 }
+
+
+
+bool ofMinigame::playMini( ofRectangle* mouse ){
+    
+    ofCheckpoint* nextPoint = checkpoints->listOfPoints[mazeProgress];
+    if( nextPoint->type == 'S' ){
+        std::string startString = "Head to the green~";
+        gameFont.drawString("Head to the green~",
+                            ofGetWidth()/2 - (gameFont.getLetterSpacing()*startString.length())/2,
+                            ofGetHeight()/2 - (gameFont.getLineHeight()/2) );
+    }
+        if( mazeProgress < checkpoints->listOfPoints.size() ){
+            if( mouse->intersects( *nextPoint->boundary ) ){
+                nextPoint->active = false;
+                mazeProgress++;
+            }
+            return true;
+        }
+    
+    mazeProgress = 0;
+    return false;
+    
+}
+
+
+
+
 

@@ -10,7 +10,7 @@ void ofApp::setup(){
     ofEnableSmoothing();
     
     // Fetching dialogue
-    int textTypes = 11;
+    int textTypes = 12;
     textData.resize( textTypes );
     
     textData[GOOD_MINI] = goodMini;
@@ -21,9 +21,10 @@ void ofApp::setup(){
     textData[LIKES] = likes;
     textData[SHOWS] = shows;
     textData[GROUPS] = groups;
-    textData[INTERESTS] = interests;
+    textData[HOBBIES] = hobbies;
     textData[PAST] = pastAction;
     textData[INTROS] = intros;
+    textData[INTERESTS] = interests;
     
     std::ifstream ifs( "../../../data/general/dialogue.txt" );
     std::string delimiter = ":";
@@ -47,6 +48,7 @@ void ofApp::setup(){
                 else if ( token == "+" ){ textData[INTERESTS].push_back(line); }
                 else if ( token == "$" ){ textData[PAST].push_back(line); }
                 else if ( token == "i" ){ textData[INTROS].push_back(line); }
+                else if ( token == "^" ){ textData[INTERESTS].push_back(line); }
             }
         }
         ifs.close();
@@ -86,8 +88,12 @@ void ofApp::setup(){
         
     // Set-Up of Minigame (First level test)
     miniCursor.loadImage("../../../data/general/checkpoint.png");
+    mouseBoundary.setWidth(miniCursor.width/2);
+    mouseBoundary.setHeight(miniCursor.height/2);
+    
     checkpointSprite.loadImage( "../../../data/general/checkpoint.png");
     modeParty->loadLevel(1, &checkpointSprite );
+    playingMini = false;
     
     if(currentScreen == INSTRUCTIONS ) { ofShowCursor(); }
     else { ofHideCursor();}
@@ -210,9 +216,14 @@ void ofApp::draw(){
         
         modeParty->drawLevel();
         
+        playingMini = modeParty->playMini( &mouseBoundary );
         ofSetColor( 135, 95, 95 );
-        miniCursor.draw( trackX-miniCursor.width/4, trackY-miniCursor.height/4,
-                         miniCursor.width/2, miniCursor.height/2);
+        miniCursor.draw( mouseBoundary );
+        
+        if( !playingMini ){
+            modeParty->loadLevel( static_cast<int>(ofRandom(1, MAX_LEVELS)), &checkpointSprite );
+            currentScreen = PARTY;
+        }
     }
 }
 
@@ -428,8 +439,8 @@ void ofApp::mouseMoved(int x, int y ){
     ofShowCursor();
     if( currentScreen == MINIGAME ){
         ofHideCursor();
-        trackX = x;
-        trackY = y;
+        mouseBoundary.setX(x);
+        mouseBoundary.setY(y);
     }
 }
 
