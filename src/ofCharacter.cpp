@@ -6,11 +6,12 @@
 //
 
 #include "ofCharacter.h"
-#define PROBTIME 5
+#define WAITTIME 4
+#define WALKTIME 10
 
 // Default Constructor - Used to create a character
-ofCharacter::ofCharacter( string name, string introduction, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
-    : name(name), introduction( introduction), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
+ofCharacter::ofCharacter( string name, string introduction, int attraction, string bodyPath, string basePath, string eyesPath, string hairPath, string shoesPath, string topsPath, string bottomsPath, float x, float y, float speedX, float speedY )
+    : name(name), introduction( introduction), attraction(attraction), x(x), y(y), imgX(0), currentPos(4), dirX(0), dirY(0), speedX( speedX ), speedY( speedY ), range( ofRandom( 1, 5 ) ), isWalking( true )
 {
     charImage.loadImage( bodyPath );
     baseImage.loadImage( basePath );
@@ -19,6 +20,14 @@ ofCharacter::ofCharacter( string name, string introduction, string bodyPath, str
     shoesImage.loadImage( shoesPath );
     topsImage.loadImage( topsPath );
     bottomsImage.loadImage( bottomsPath );
+    
+    genColor( charColor );
+    genColor( eyesColor );
+    genColor( hairColor );
+    genColor( shoesColor );
+    genColor( topsColor );
+    genColor( bottomsColor );
+
     footSpace =charImage.getHeight() / 5;
     footRect = ofRectangle(x, y + MAPHEIGHT - footSpace, MAPWIDTH, footSpace );
     
@@ -29,8 +38,11 @@ ofCharacter::ofCharacter( string name, string introduction, string bodyPath, str
 ofCharacter::~ofCharacter(){};
 
 
-bool ofCharacter::operator<(ofCharacter& rhs) { return y < (&rhs)->y;}
-
+void ofCharacter::genColor( ofColor& var ){
+    var.r = static_cast<int>( ofRandom( 0, 255 ) );
+    var.g = static_cast<int>( ofRandom( 0, 255 ) );
+    var.b = static_cast<int>( ofRandom( 0, 255 ) );
+}
 
 // Update Method - Used to refresh character's properties
 
@@ -46,14 +58,14 @@ void ofCharacter::update( bool player){
     }
     else{
         
-        // Every PROBTIME seconds, check if it is time to alter between walking and standing
-        if( ofGetElapsedTimeMillis() - startTime > PROBTIME * 1000 ){
-            cout << "TIME!" << endl;
-            if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
-            startTime = ofGetElapsedTimeMillis();
-        }
         
         if( isWalking ) {
+            
+            // Every PROBTIME seconds, check if it is time to alter between walking and standing
+            if( ofGetElapsedTimeMillis() - startTime > WALKTIME * 1000 ){
+                if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
+                startTime = ofGetElapsedTimeMillis();
+            }
             
             if( x < 0 ){
                 x = 0;
@@ -81,6 +93,13 @@ void ofCharacter::update( bool player){
             if( speedY > 0 ) { dirY = 1; }
             else if( speedY == 0 ) { dirY = 0; }
             else if( speedY < 0 ) { dirY = -1; }
+        }
+        else {
+            // Every PROBTIME seconds, check if it is time to alter between walking and standing
+            if( ofGetElapsedTimeMillis() - startTime > WAITTIME * 1000 ){
+                if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
+                startTime = ofGetElapsedTimeMillis();
+            }
         }
     }
     
@@ -155,13 +174,25 @@ void ofCharacter::draw(){
               range * (MAPHEIGHT) / 2,
               range * (MAPHEIGHT) / 4 );
     
-    ofSetColor( 197, 151, 117);
+    ofSetColor( charColor );
     charImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( 255, 255, 255 );
     baseImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( eyesColor );
     eyesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( shoesColor );
     shoesImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( bottomsColor );
     bottomsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( topsColor );
     topsImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
+    
+    ofSetColor( hairColor );
     hairImage.drawSubsection( x, y, MAPWIDTH, MAPHEIGHT, MAPWIDTH * currentPos, 0);
     
     ofSetColor( 255, 255, 255, 100 );

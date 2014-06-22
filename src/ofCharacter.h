@@ -43,14 +43,16 @@ public:
     float range;
     int footSpace;
     ofRectangle footRect;
-    ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
-
-    string name, introduction;
-    bool operator<( ofCharacter& rhs);
     
+    int attraction;
+    ofImage charImage, baseImage, eyesImage, hairImage, shoesImage, topsImage, bottomsImage;
+    ofColor charColor, eyesColor, hairColor, shoesColor, topsColor, bottomsColor;
+    string name, introduction;
+    void genColor( ofColor& );
     // Constructor
     ofCharacter(    string name,
                     string introduction,
+                    int attraction,
                     string imagePath,
                     string basePath = "",
                     string eyesPath = "",
