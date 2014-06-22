@@ -16,7 +16,6 @@ void ofApp::setup(){
     myText.init("fonts/verdana.ttf", 80);
     
     nameInput = "";
-    introInput = "";
     
     //Initially wrap the text to the screen width
     myText.wrapTextX( 0 );
@@ -98,11 +97,15 @@ void ofApp::update(){
         characters[i]->update( false );
     }
     
+    
+    player->update( true );
+    
     // Reorder
     yPoses.clear();
     for( int i = 0; i < numOfCharacters; i++ ) {
         yPoses.push_back( characters[i]->y );
     }
+    yPoses.push_back( player-> y );
     
     ofSort( yPoses );
     
@@ -110,8 +113,6 @@ void ofApp::update(){
         previousScreen = currentScreen;
         currentScreen = ENDING;
     }
-    
-    player->update( true );
     
     std::sort( characters.begin(), characters.end() );
     
@@ -161,12 +162,13 @@ void ofApp::draw(){
         modeParty->draw();
         
         for (int i = 0; i < yPoses.size(); i++ ){
-            for ( int j = 0; j < numOfCharacters; j++ ) {
-                if( characters[j]->y == yPoses[i] ){ characters[j]->draw(); }
+            if( player->y == yPoses[i] ){ player->draw(); }
+            else{
+                for ( int j = 0; j < numOfCharacters; j++ ) {
+                    if( characters[j]->y == yPoses[i] ){ characters[j]->draw(); }
+                }
             }
         }
-        
-        player->draw();
         
         ofSetColor( 120, 120, 120 );
         
@@ -404,6 +406,7 @@ void ofApp::reset( std::ostringstream& oss ){
     player = new ofCharacter(
                              "",
                              "",
+                             static_cast<int>( ofRandom(numOfCharacters ) ),
                              "characters/blankBody.png",
                              "characters/eyes/base.png",
                              "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
@@ -425,7 +428,9 @@ void ofApp::reset( std::ostringstream& oss ){
     for ( int i = 0; i < numOfCharacters; i++ ) {
         
         characters.push_back( new ofCharacter(
-                              getNumToStr( oss, i ), getNumToStr( oss, i*5 ),
+                              getNumToStr( oss, i ),
+                              getNumToStr( oss, i*5 ),
+                              i,
                               "characters/blankBody.png",
                               "characters/eyes/base.png",
                               "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
