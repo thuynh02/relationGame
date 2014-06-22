@@ -16,11 +16,6 @@ void ofApp::setup(){
     
     nameInput = "";
     introInput = "";
-    introduction.push_back("RULE 1");
-    introduction.push_back("RULE 1");
-    introduction.push_back("RULE 1");
-    introduction.push_back("RULE 1");
-    introduction.push_back("RULE 1");
     
     //Initially wrap the text to the screen width
     myText.wrapTextX( 0 );
@@ -34,6 +29,20 @@ void ofApp::setup(){
     
     // Set-Up of Screens
     currentScreen = START;
+    instructions.push_back( "You came to a party hoping to meet up with some close friends of " );
+    instructions.push_back( "yours. Unfortunately, they all bailed on you at the last minute." );
+    instructions.push_back( "You're already at the party, but it's been ages since you last tried to ");
+    instructions.push_back( "make some new friends. Make the most of the night and find new ");
+    instructions.push_back( "people to connect with before the party ends on a lonely note.");
+    instructions.push_back( "" );
+    instructions.push_back( "- Walk over to someone using the W, A, S, D keys:" );
+    instructions.push_back( "     this will start a conversation");
+    instructions.push_back( "- Pay attention, stay alert, and navigate the shape of the conversation ");
+    instructions.push_back( "     with your mouse.");
+    instructions.push_back( "- Too many mistakes will drive a potential friend away! ");
+    instructions.push_back( "" );
+    instructions.push_back( "Good luck! How will you say hello? Keep it short and sweet." );
+    
     
     // Set-Up of Party Mode
     numOfCharacters = NUMBEROFCHARACTERS;
@@ -84,13 +93,20 @@ void ofApp::draw(){
     else if( currentScreen == INSTRUCTIONS ){
         ofSetColor( 120, 120, 120 );
         myText.draw( 500, ofGetHeight() );
+        
+        myFont.loadFont("fonts/verdana.ttf", 32 );
         myFont.drawString("NAME: ", ofGetWidth()/15, ofGetHeight()/10);
         myFont.drawString("INSTRUCTIONS: ", ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight() );
-        for (int i = 0; i < introduction.size(); i++ ) {
-            myFont.drawString( introduction[i], ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight()*(i+2) );
+        
+        
+        myFont.loadFont("fonts/verdana.ttf", 18 );
+        for (int i = 0; i < instructions.size(); i++ ) {
+            myFont.drawString( instructions[i], ofGetWidth()/15, ofGetHeight()/10 + myFont.getLineHeight()*(i+3) );
         }
+        
+        myFont.loadFont("fonts/verdana.ttf", 32 );
         myFont.drawString(nameInput, ofGetWidth()/15 + myFont.stringWidth("NAME: ") * 1.25, ofGetHeight()/10);
-        myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10) + myFont.getLineHeight()*(introduction.size()+2) );
+        myFont.drawString(introInput, ofGetWidth()/15, (ofGetHeight()/10) + myFont.getLineHeight()*(instructions.size()-3) );
     }
     // Currently in Party Screen
     else if( currentScreen == PARTY ){
@@ -125,10 +141,10 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     
     // Conditional Statement for Toggling Fullscreen
-    if ( key == OF_KEY_F1 ) {
-        ofToggleFullscreen();
-        myText.wrapTextArea( (ofGetWidth()/3)*2, ofGetHeight()/2 );
-    }
+//    if ( key == OF_KEY_F1 ) {
+//        ofToggleFullscreen();
+//        myText.wrapTextArea( (ofGetWidth()/3)*2, ofGetHeight()/2 );
+//    }
     
     // Conditional Statements for Altering Screen
     if( currentScreen == START && key == OF_KEY_TAB ){
@@ -151,7 +167,7 @@ void ofApp::keyPressed(int key){
         else if( !nameFieldActive && introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = true; introFieldActive = false; }
             else if( key == OF_KEY_BACKSPACE || key == OF_KEY_DEL ) { introInput = introInput.substr(0, introInput.size() - 1); }
-            else if ( introInput.size() < 22 ) { introInput += key; }
+            else if ( introInput.size() < 26 ) { introInput += key; }
         }
     }
     else if( currentScreen == PARTY ) {
@@ -298,7 +314,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 //--------------------------------------------------------------
 void ofApp::resetFont(){
-    myFont.loadFont("fonts/verdana.ttf", 32 );
+    
 }
 
 void ofApp::reset( std::ostringstream& oss ){
