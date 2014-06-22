@@ -45,8 +45,10 @@ void ofCharacter::update( bool player){
         y += dirY * speedY;
     }
     else{
+        
         // Every PROBTIME seconds, check if it is time to alter between walking and standing
         if( ofGetElapsedTimeMillis() - startTime > PROBTIME * 1000 ){
+            cout << "TIME!" << endl;
             if( ofRandom( -1, 1 ) > 0 ) { isWalking = !isWalking; }
             startTime = ofGetElapsedTimeMillis();
         }
@@ -80,28 +82,27 @@ void ofCharacter::update( bool player){
             else if( speedY == 0 ) { dirY = 0; }
             else if( speedY < 0 ) { dirY = -1; }
         }
-        else {
-            
-        }
-    }
-
-    // LEFT: X = -1, Y = 0
-    if( dirX == -1 ){
-        animateWalkLeft();
-    }
-    // RIGHT: X = 1, Y = 0
-    else if( dirX == 1 ){
-        animateWalkRight();
-    }
-    // UP: X = 0, Y = -1
-    else if( dirY == -1 ){
-        animateWalkBackward();
-    }
-    // DOWN: X = 0, Y = 1
-    else if( dirY == 1 ){
-        animateWalkForward();
     }
     
+    if( isWalking ){
+        // LEFT: X = -1, Y = 0
+        if( dirX == -1 ){
+            animateWalkLeft();
+        }
+        // RIGHT: X = 1, Y = 0
+        else if( dirX == 1 ){
+            animateWalkRight();
+        }
+        // UP: X = 0, Y = -1
+        else if( dirY == -1 ){
+            animateWalkBackward();
+        }
+        // DOWN: X = 0, Y = 1
+        else if( dirY == 1 ){
+            animateWalkForward();
+        }
+
+    }
     
     footRect.setPosition(x, y + MAPHEIGHT - footSpace );
     
@@ -112,8 +113,8 @@ void ofCharacter::update( bool player){
 
 
 bool ofCharacter::timeToTransition(){
-    if( ofGetElapsedTimeMillis() - startTime > 100 ){
-        startTime = ofGetElapsedTimeMillis();
+    if( ofGetElapsedTimeMillis() - targetTime > 100 ){
+        targetTime = ofGetElapsedTimeMillis();
         return true;
     }
     return false;

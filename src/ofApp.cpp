@@ -173,7 +173,7 @@ void ofApp::keyPressed(int key){
             previousScreen = INSTRUCTIONS;
             currentScreen = PARTY;
             player->name = nameInput;
-            player->introduction = introInput;
+            for( int i = 0; i < introduction.size(); i++ ){ player->introduction += introduction[i]; }
         }
         else if( nameFieldActive && !introFieldActive ){
             if( key == OF_KEY_TAB ){ nameFieldActive = false; introFieldActive = true; }
@@ -375,7 +375,7 @@ void ofApp::reset( std::ostringstream& oss ){
     for ( int i = 0; i < numOfCharacters; i++ ) {
         
         characters.push_back( new ofCharacter(
-                              "", "",
+                              getNumToStr( oss, i ), getNumToStr( oss, i*5 ),
                               "characters/blankBody.png",
                               "characters/eyes/base.png",
                               "characters/eyes/" + getNumToStr( oss, static_cast<int>( ofRandom(1, NUMEYES) ) ) + ".png",
