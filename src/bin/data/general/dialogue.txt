@@ -1,0 +1,295 @@
+g:Thank you, you look great too.
+g:You are so funny!
+g:I would love to get some more time to chat with you.
+g:We should find someplace quieter.
+g:Oh? Yeah I really love this song too.
+g:You're really sweet for noticing.
+g:Thanks! Really, thank you.
+g:You should really meet my cat sometime.
+g:I'm really into that too, don't worry.
+g:Would you like to hang out sometime soon?
+g:Haha! I love it.
+g:That is amazing! I wish I met you earlier!
+g:Would you like to dance?
+g:We seem to be on the exact same page here.
+g:Are you thinking what I'm thinking?
+g:You're looking really, really good.
+g:I was hoping you'd say that.
+g:I'd be happy to do that.
+g:You're very considerate, thank you.
+g:Did you know that was my favorite?
+g:Let's trade numbers.
+g:Oh yeah? Then you should check out...
+g:That's hilarious!
+g:Wait, wait! I know a really good one!
+g:You should really meet my friend, they're great at that.
+g:We're all going to go hang out next week, want to come?
+g:I never thought about it like that before, thanks!
+g:How great would that be?
+g:This song is my favorite!
+g:Oh wow, I thought you were serious for a second there.
+g:It's still early, let's find a good place to sit down.
+g:You would not believe what happened to me yesterday...
+g:I found a fun game the other day that I think you might dig.
+g:Hm, I wonder!
+g:Yeah that's a neat idea!
+g:You want to see pictures of my cat? Of course!
+g:We should really be friends.
+g:This has been a lot of fun.
+g:That's pretty funny.
+g:Yeah, everyone here is great.
+g:Sometime soon I hope.
+g:Let's make sure to keep in touch.
+g:Oh awesome! I love it.
+g:Haha that's pretty cool.
+g:Can I get your email?
+g:We should totally do that next week!
+g:*smile*
+g:That's great.
+g:Thank you for asking.
+g:I appreciate you asking me that.
+g:Oh don't worry, I'm really into that too.
+g:Really? Can you show me?
+g:You're lovely, just lovely.
+g:No way! I always thought it was the other way around haha!
+g:Do you also wonder about...
+g:You know what we should do?
+g:Thanks! I got them just the other day.
+g:Oh you're so sweet for saying that.
+g:I really want to tell you more about...
+g:Did you see them yesterday too? Small world.
+g:This is a really fun party, yeah?
+g:Would you like another drink?
+g:You should really meet my friends, they'd love you.
+m:Do you really think so?
+m:Are you sure about that?
+m:Maybe we could talk about something happier....
+m:I'm not sure about that but alright.
+m:You always say the weirdest things.
+m:My plans might be open...
+m:Tomorrow? What's going on then?
+m:I can never tell what you'll say next!
+m:Please think about what you said.
+m:Just yesterday you said you wouldn't.
+m:What did you say to me?
+m:I didn't know you felt that way.
+m:Is that what you really wanted to say to me?
+m:Maybe we should do a rain check...
+m:Oh, that could be fun.
+m:Are you feeling ok?
+m:Let's go chat with our friends for now, ok?
+m:You know I don't think that.
+m:Oh sure, that might work again.
+m:I can grab us some more drinks.
+m:Oh, um... let me think on that, ok?
+m:Did I catch you at a bad time?
+m:Some people might approach it like that.
+m:Oh god, that is one way to take it haha.
+m:That is interesting...
+m:Oh yeah, maybe!
+m:Uh huh, oh yeah?
+m:Haha, hold up a second there...
+m:No wait, really?
+m:I think I should check in on my friend
+m:I'm going to grab another drink soon...
+m:Who's going to be there tomorrow?
+m:I'm not so sure I agree with you there.
+m:Cool, I should really go tell that to them.
+m:Maybe you've been here a little too long...
+m:Hey, let's go join the group over there.
+m:Maybe another time?
+m:That could be true.
+m:You're coming off a little strong
+m:I'm not sure why you're telling me this.
+m:That's cool...
+m:I'll be sure to pass that on.
+m:What did you say?
+m:Oh?
+m:Really...
+m:I guess so?
+m:I'm not sure what you mean.
+m:That is one way to look at it.
+m:Um...
+m:I'm not so sure...
+m:...heh.
+m:What?
+m:Ok.
+m:Yeah ok.
+m:Maybe.
+m:Are you sure?
+m:Maybe you want to rephrase that?
+m:Wait, what?
+m:Oh, I see.
+m:Huh.
+m:...*nervous laugh*
+m:That might work?
+m:Right...
+b:I really thought better of you than that.
+b:How could you say that to me?
+b:Oh no, that won't be a good idea.
+b:I'm definitely busy after this.
+b:Are you kidding me?
+b:That's awful.
+b:Please back off.
+b:I don't appreciate that.
+b:Get out of my face.
+b:You need to leave me alone.
+b:I don't want to go out with you... ever.
+b:This is going nowhere.
+b:You really want to keep bothering me?
+b:It would be great if you walked away now.
+b:Oh wow, you're kind of terrible.
+b:You're awfully forward.
+b:Why are you trying so hard?
+b:This isn't working.
+b:Get away from me!
+b:You're about as effective as a cat in a tree.
+b:I told you not to say that!
+b:Um... not really.
+b:No one is appreciating this.
+b:Be quiet.
+b:Don't talk to me.
+b:Please leave.
+b:Stop talking to me.
+b:I'm going to go talk with my friends now.
+b:I'm going to go get another drink, don't follow me.
+b:We are totally never going to hang out together.
+b:Gonna just smack that offer of friendship off the table.
+b:You really don't get it, do you?
+b:If you think that, I think we're done talking.
+b:This is a terrible way to make an impression.
+b:You really just said that, didn't you?
+b:Oh wow. No.
+b:I'm not so thrilled to be here.
+b:Do I look happy right now?
+b:This conversation is over.
+b:Don't bother.
+b:I'm going to stop you right there.
+b:You're very wrong.
+b:No.
+b:Ugh, no.
+b:That's really not ok.
+b:...
+b:...stop.
+b:Could you just not?
+b:I have no words for how bad that was.
+b:Oh god no.
+b:Rude!
+b:So rude!
+b:I don't want to hear it.
+b:Why would you do that?
+b:*a shocked stare brimming with resentment*
+b:Get out.
+b:You are making me uncomfortable.
+b:This is not ok.
+b:No!
+b:What did you say?!
+b:I really don't like you.
+b:Take that back.
+b:Absolutely not.
+n:Dominique
+n:Logan
+n:Micah
+n:Justice
+n:Ryan
+n:Ren
+n:Kenta
+n:Noel
+n:Mehmet
+n:Yusuf
+n:Emre
+n:Mia
+n:Olivia
+n:Charlotte
+n:Miu
+n:Miyu
+n:Nanami
+n:Rowena
+n:Zeynep
+n:Fatma
+n:Fatima
+n:Irem
+n:Azamat
+n:Aidana
+n:Sabina
+n:Florian
+n:Hugo
+n:Lucas
+n:Andre
+n:Tiago
+n:Javier
+n:Ruby
+n:Freja
+n:Diana
+n:Anna
+n:Eva
+n:Nora
+n:Hannah
+n:Shirley
+n:Dominga
+n:Ranulfo
+n:Snake
+n:Shephard
+@:the coffee shop
+@:the library
+@:school
+@:the office party
+@:another party
+@:the local bar
+@:the pet shop
+@:Angel's Share
+*:appreciates small chat
+*:loves assorted flora and fauna
+*:is discerning about graphic novels
+*:likes quiet conversation
+*:adores good music
+*:likes to dance for fun
+*:likes to keep to themselves
+*:loves experimental interactive narratives
+&:Doctor Who
+&:Hannibal
+&:The World Cup
+&:Dateline
+&:Sleepy Hollow
+&:The Daily Show
+&:the sun rising
+&:other people
+`:trivia team
+`:paintball league
+`:cosplay troupe
+`:astronomy club
+`:new meetup group
+`:chem study group
+`:bowling team
+`:gang of ne'er do wells
++:decorative antique frames
++:independent games
++:debates about the Euro
++:ancient Greek sculpture
++:modern architecture
++:gyroscopes
++:movements of stars
++:80's synth pop bands
+$:dancing in line
+$:dressed up all fancy
+$:carrying a ton of books
+$:singing a little too loud
+$:sharing pictures of my cat
+$:cleaning up a spilled drink
+$:giving everyone a hug
+$:upset about Godzilla
+i:Hey there, I'm #NAME and it's nice to see you. I think I might have seen you around at @ before? You're Ibrahim's friend, yeah? I was the person that was $ haha! Maybe we remember each other?
+i:Hi! You look nice, and like someone who *. I'm #NAME. I don't know most of the people here so I'm a little out of my element. Um... um... say do you watch &?
+i:Oh, hello. I don't think we've met, my name is #NAME. Pleasure to meet you... I suppose, by chance, would you happen to be interested in +? It's... a passion of mine you could say.
+i:What? Oh. Yeah good seeing you. I was in the middle of trying to find someone to join my `, do you think you might be able to help? What? Oh my name's #NAME.
+i:Hey! It's good to see you again. I didn't get much of a chance to get to know you before at @. My name's #NAME, remember? If I remember right we talked about & the last time we met.
+^:cats
+^:puppies
+^:sculpture
+^:swimming
+^:knitting
+^:sex positivity
+^:community outreach
+^:espooooorts
+^:indie games
+^:fanfiction
